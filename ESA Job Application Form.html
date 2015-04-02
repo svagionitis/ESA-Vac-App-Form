@@ -1,0 +1,2188 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html><!--
+##########################################################################
+##
+## Application name: WAS
+##
+## CREATION
+## Purpose: Application Form web page
+## Input:   Vacancy Note code (optional)
+## Author: Unknown
+## Date: Unknown
+##
+## HISTORY OF CHANGES
+## Number of changes: 001
+## Reference: WAS_CR_9
+## Author: CASP - Giacomo Montali
+## Date: 20/02/2009
+## Note: modification due to the new ESA security directives
+##
+## Number of changes: 002
+## Reference: WAS_CR_8
+## Author: CASP - Giacomo Montali & Lamberto Castiglione
+## Date: 23/03/2009
+## Note: problem report - modification to the messages displaied when the Present Employer and Study enquiry options are not selected
+##
+## Number of changes: 003
+## Reference: WAS_CR_11
+## Author: CASP - Giacomo Montali & Lamberto Castiglione
+## Date: 23/03/2009
+## Note: change request - hide the "May be contacted" radio buttons and substitute them with hidden fields
+##
+## Number of changes: 004
+## Reference: WAS_CR_14
+## Author: CASP - Gianluca Palladino
+## Date: 07/07/2010
+## Note: change request - WAS: problems
+##
+## Number of changes: 005
+## Reference: WAS_CR_15
+## Author: CASP - Michele Cabano - MIC
+## Date: 22/07/2010
+## Note: Malfunctioning of WAS
+##
+## Number of changes: 006
+## Reference: WAS_CR_20
+## Author: CASP - Alessandro Monchieri - AMO
+## Date: 25/10/2011
+## Note: Replacing label "Address and Telephone Number" to "Address, Telephone Number and Email Address"
+##
+## Number of changes: 007
+## Reference: WAS_CR_24
+## Author: CASP - Alessandro Monchieri - AMO
+## Date: 22/06/2012
+## Note: Replacing Country and Nationality lists
+##
+## Number of change: 008
+## Reference: WAS_CR_25 
+## Author: CASP - Alessandro Monchieri - AMO
+## Date: 26/06/2012
+## Note: Upper to Vacancy Note
+##
+## Number of change: 009
+## Reference: WAS_CR_27 
+##            WAS_CR_29
+## Author: CASP - Alessandro Monchieri - AMO
+## Date: 22/11/2012
+## Note: WAS_CR_27 - Added docx extension in curriculum vitae
+##       WAS_CR_29 - Added Registered Partner and Ex Registered Partner radio buttons 
+##
+## Number of change: 010
+## Reference: WAS_CR_33 
+## Author: CASP - Alessandro Monchieri - AMO
+## Date: 10/01/2014
+## Note: WAS_CR_33 - Second Nationality field as Drop Down List
+##
+##########################################################################
+--><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+	<link rel="stylesheet" href="ESA%20Job%20Application%20Form_files/vn.css" type="text/css">
+	<title>ESA Job Application Form</title>
+<script language="JavaScript">
+	<!-- Begin
+	var vn = '';
+
+var DHTML = (document.getElementById || document.all || document.layers);
+
+function checkrequired(which) {
+
+// There arrays determine the order in which the fields are checked
+			//CASP_20022009_WAS_CR_9 start
+			//added the management of the auth_cont_0 and pemp_cont_0 fields
+			var reqs = new Array("vn_reference","surname","first_name","birth_date_day","birth_place_town","birth_place_country","nationality", "street","town","zip_code","country","email","no_children","mother_tongue","intv_details","education_name_0","education_titl_0","education_subj_0","education_date_0","specialisation_0","auth_cont_0","from_year","to_year","pemp_cont_0","from_year_2","to_year_2","rel_name","acq_name","FILE");
+			//CASP_23032009_WAS_CR_8 start
+			var names = new Array("Vacancy Reference", "Surname","First Name","Date Of Birth","Place of Birth","Place of Birth","Nationality","Street","Town","Postal Code","Country","Home E-Mail","Number of children","Mother Tongue","Previous Interview Details","Education Name/Location","Education Title","Education Major Subject","Education Date","Education Fields of Specialisation","on diplomas and degrees","Start date of current position","End date of current position","to present employer","Start date of previous position","End date of previous position","Relatives at ESA","Acquaintances at ESA","Attached CV");
+			//end CASP_23032009_WAS_CR_8
+			//end CASP_20022009_WAS_CR_9
+			
+// For testing only, the next line removes all checks
+//				return true;
+	
+				for (i=0;i<reqs.length;i++) {
+				var msg='.';
+				var pass=true;
+				var done=false;
+				var req = reqs[i];
+				var tempobj=which.elements[req];
+
+				if (req=="vn_reference") {
+					if (isEmpty(tempobj[tempobj.selectedIndex].value)) {
+						pass=false;
+					}
+					done=true;
+				}
+				if (req.substring(0,10)=="birth_date") {
+					if (checkDateObj(which.birth_date_day, which.birth_date_month, which.birth_date_year) == false){
+						alert("Invalid date of birth specified.");
+						which.birth_date_day.focus();
+						return false;
+					}
+				}
+				if (req=="no_children") {
+					if (checkRange(which.no_children.value, 0, 9) == false){
+						alert("Invalid number of children specified (0 to 9).");
+						which.no_children.focus();
+						return false;
+					}
+
+				}
+				if (req.substring(0,9)=="education") {
+					pass=false;
+					msg=' (at least one among Secondary School, University and Post University).';
+					var req_base=req.substring(0,15);
+					for (j=0;j<3;j++) {
+						req=req_base+String(j);
+						tempobj=which.elements[req];
+						if (req_base=="education_titl_") {
+							if (tempobj.selectedIndex != 0) {
+								pass=true;
+								break;
+							}
+						}
+						else {
+							if (tempobj.value != '') {
+								pass=true;
+								break;
+							}
+						}
+					}
+					req=req_base+String(0);
+					tempobj=which.elements[req];
+					done=true;
+				}
+				if (req=="birth_place_country") {
+					if (tempobj.selectedIndex == 0) {
+						pass=false;
+					}
+					done=true;
+				}
+				if (req=="nationality") {
+					if (tempobj.selectedIndex == 0) {
+						pass=false;
+					}
+					done=true;
+				}
+				if (req=="country") {
+					if (tempobj.selectedIndex == 0) {
+						msg=' (You must select a country)';
+						pass=false;
+					}
+					done=true;
+				}
+				if (req=="email") {
+					if (tempobj.value.indexOf("@") == -1 || tempobj.value.indexOf(".") == -1 || tempobj.value.length < 5 ) {
+						msg=' (Invalid e-mail address)';
+						pass=false;
+					}
+					done=true;
+				}
+				if (req=="rel_name") {
+					if (which.rel_flag[1].checked == "1" && tempobj.value == '' ) {
+						msg=' (You must provide the name of relatives)';
+						pass=false;
+					}
+					done=true;
+				}
+				
+				if (req=="intv_details") {
+					if ((which.prev_int[0].checked==true) && tempobj.value == '' ) {
+						pass=false;
+					}
+					done=true;
+				}
+
+				if (req=="acq_name") {
+					if (which.acq_flag[1].checked == "1" && tempobj.value == '' ) {
+						msg=' (You must provide the name of acquaintances)';
+						pass=false;
+					}
+					done=true;
+				}
+				if (req=="from_year" || req=="to_year" || req=="from_year_2" || req=="to_year_2") {
+					if (tempobj.value != '' && !isNumber(tempobj.value)) {
+						pass=false;
+					}
+					done=true;
+				}
+
+				if (req=="FILE") {
+					msg='';
+					if (which.FILE.value.length > 62)
+					{
+						msg= ' File path too long - limit is 62 characters.';
+						pass=false;
+					}
+					var file_ext=tempobj.value.substring(tempobj.value.lastIndexOf('.'));
+					// CASP AMO 22_11_2012 WAS_CR_27 begin 
+					//if (file_ext != ".doc" && file_ext != ".pdf"){
+					//	msg=msg+' Filename extension ".doc" or ".pdf" expected.';
+					//	pass=false;
+					//}
+					if (file_ext != ".doc" && file_ext != ".docx" && file_ext != ".pdf" && file_ext != ".rtf"  && file_ext != ".txt"){
+						msg=msg+' Filename extension ".doc", ".docx", ".pdf", ".rtf" or ".txt" expected.';
+						pass=false;
+					}					
+					// end CASP AMO 22_11_2012 WAS_CR_27 
+					if (msg.length > 0){
+						msg = ' ('+msg+') ';
+					}
+					done=true;
+				}
+				if ((!done) && (tempobj.value=='')) {
+					pass=false;
+				}
+				
+				//CASP_20022009_WAS_CR_9 start
+				if (req=="auth_cont_0") {
+					var radioLength = which.auth_cont_0.length;
+					var is_checked = "FALSE";
+					for(var i_auth_count = 0; i_auth_count < radioLength; i_auth_count++) {
+						if(which.auth_cont_0[i_auth_count].checked) {
+							is_checked = "TRUE";
+						}
+					}
+					
+					if (is_checked == "FALSE") {
+						//CASP_23032009_WAS_CR_8 start
+						msg='. (You must select Yes or No)';
+						//end CASP_23032009_WAS_CR_8
+						pass=false;
+					}
+					done=true;
+				}
+				
+				if (req=="pemp_cont_0") {
+					var radioPempLength = which.pemp_cont_0.length;
+					var is_pempChecked = "FALSE";
+					for(var i_pemp_cont = 0; i_pemp_cont < radioPempLength; i_pemp_cont++) {
+						if(which.pemp_cont_0[i_pemp_cont].checked) {
+							is_pempChecked = "TRUE";
+						}
+					}
+					
+					if (is_pempChecked == "FALSE") {
+						//CASP_23032009_WAS_CR_8 start
+						msg='. (You must select Yes or No)';
+						//end CASP_23032009_WAS_CR_8
+						pass=false;
+					}
+					done=true;
+				}
+				//end CASP_20022009_WAS_CR_9
+					
+				if (req.substring(0,14)=="specialisation") {
+					msg=' (at least one).';
+				}			
+
+				if (!pass) {
+					break;
+				}
+			}
+			
+			if (!pass) {
+				var name = names[i];
+				//CASP_23032009_WAS_CR_8 start
+				alert("Please make sure that the authorization of enquiry "+name+" field has been properly completed"+msg);
+				//end CASP_23032009_WAS_CR_8
+				//CASP_20022009_WAS_CR_9 start
+				//manage the setting focus on the option controls
+				//original version: tempobj.focus();
+				if (req=="auth_cont_0" || req=="pemp_cont_0"){
+					tempobj[0].focus();
+				}else{
+					tempobj.focus();
+				}
+				//end CASP_20022009_WAS_CR_9
+				return false;
+			}
+			textAreaTrim(which.intv_details, 120);
+			textAreaTrim(which.education_name_0, 120);
+			textAreaTrim(which.education_name_1, 120);
+			textAreaTrim(which.education_name_2, 120);
+			textAreaTrim(which.education_subj_0, 60);
+			textAreaTrim(which.education_subj_1, 60);
+			textAreaTrim(which.education_subj_2, 60);
+			textAreaTrim(which.theses, 2000);
+			textAreaTrim(which.packages_excellent, 130);
+			textAreaTrim(which.packages_good, 130);
+			textAreaTrim(which.packages_fair, 100);
+			textAreaTrim(which.packages_poor, 100);
+			textAreaTrim(which.company_1, 120);
+			textAreaTrim(which.duties, 200);
+			textAreaTrim(which.motive, 200);
+			textAreaTrim(which.company_2, 120);
+			textAreaTrim(which.duties_2, 200);
+			textAreaTrim(which.motive_2, 200);
+			textAreaTrim(which.prev_posts, 2000);
+			textAreaTrim(which.app_details, 2000);
+			textAreaTrim(which.ref_addr_1, 150);
+			textAreaTrim(which.ref_addr_2, 150);
+			textAreaTrim(which.ref_addr_3, 150);
+			textAreaTrim(which.rel_name, 150);
+			textAreaTrim(which.acq_name, 150);
+
+			return true;
+		}
+			
+		// ==========================================================================
+		function Init() {
+			vn = '';
+			var idx = document.URL.indexOf('?');
+			if (idx != -1) {
+				var pair = document.URL.substring(idx+1, document.URL.length).split('=');
+				vn = pair[1];
+			}
+			if (isEmpty(vn)){
+				alert('The form has been opened without specifying a vacancy reference.\nYou cannot proceed without specifying a vacancy.');
+			}else{
+				// CASP AMO 26_06_2012 WAS_CR_24 begin 
+				//document.forms[0].vn_refer2ence[0].value=vn;
+				//document.forms[0].vn_reference[0].text=vn;
+				document.forms[0].vn_reference[0].value=vn.toUpperCase();
+				document.forms[0].vn_reference[0].text=vn.toUpperCase();
+				// end CASP AMO 26_06_2012 WAS_CR_24
+			}
+		}
+
+		// ==========================================================================
+		function checkRange(myValue, min, max){
+			if (isNumber(myValue)==false) {
+				return false;
+			}
+			if (parseInt(myValue) > max || parseInt(myValue) < min){
+				return false;
+			}
+			return true;
+		}
+
+		//	Generic date recognition and validation functions.
+		// ==========================================================================
+
+		// ==========================================================================
+		// Checks if the passed string is Null.
+		// ==========================================================================
+		function isEmpty(myStr) {
+			if (myStr== null || myStr=="") {
+				return true;
+			}
+			return false;
+		}
+
+		// ==========================================================================
+		// Checks if the passed string is a valid number.
+		// ==========================================================================
+		function isNumber(myStr) {
+			for (var chrIdx=0; chrIdx < myStr.length; chrIdx++) {
+				if ((myStr.charAt(chrIdx) < "0") || (myStr.charAt(chrIdx) > "9") ){
+					return false;
+				}
+			}
+			return true;
+		}
+
+		// ==========================================================================
+		// ==========================================================================
+		function checkYear(myYearFld) {
+
+			var myYear = myYearFld.value;
+			if (isEmpty(myYear)==true || isNumber(myYear)==false) {
+				return false;
+			}	
+
+			if (parseInt(myYear,10) < 10) {
+				myYear="200" + parseInt(myYear,10);
+			}
+			if (parseInt(myYear,10) < 20) {
+				myYear="20" + myYear;
+			}
+			if (parseInt(myYear,10) >= 20 && parseInt(myYear,10) < 100) {
+				myYear="19"+ myYear;
+			}
+			if (parseInt(myYear,10)<1920 || parseInt(myYear,10)>2020) {
+				return false;
+			}
+			myYearFld.value = myYear;
+			return true;
+		}
+
+
+		// ==========================================================================
+		//	Date cecking routine for dates in the past e.g. birth dates.
+		//	This version converts year values less than 20 to 21st century , those greater than
+		//	20 are taken as 20th century. After converion, the date must lie between 1920 and 2020.
+		// ==========================================================================
+		function checkDateObj(myDayFld, myMonFld, myYearFld) {
+
+			var myDay=myDayFld.value;
+			if (isEmpty(myDay) == true || isNumber(myDay) == false) {
+				return false;
+			}
+
+			if (checkYear(myYearFld) == false){
+				return false;
+			}
+
+			var daysInMth=31;
+			var myMth=myMonFld[myMonFld.selectedIndex].value;
+			var myYear = myYearFld.value;
+
+			if (isEmpty(myMth) == true || isNumber(myMth) == false) {
+				return false;
+			}
+
+			if (myMth==2) {
+				if (Math.round(myYear/4) == myYear/4) {
+					daysInMth = 29;
+				}else {
+					daysInMth = 28;
+				}
+			}
+			if (myMth == 4 || myMth == 6 || myMth == 9 || myMth == 11)  {
+				daysInMth = 30;
+			}
+			if (parseInt(myDay,10) > daysInMth) {
+				return false;
+			}else{
+				return true;
+			}
+		}		
+
+		// ==========================================================================
+		function textAreaMaxLen(myTA, maxLen){
+		// ==========================================================================
+			if (myTA.value.length >= maxLen-1){
+				alert('This field is too long!\nIt will be truncated when submitted. \nMaximum length is '+maxLen);
+				myTA.focus();
+			} 
+		}
+		
+		// ==========================================================================
+		function textAreaTrim(myTA, maxLen){
+		// ==========================================================================
+			if (myTA.value.length >= maxLen-1){
+				myTA.value = myTA.value.substring(0, maxLen);
+			}
+		}
+
+		// CASP AMO 10_01_2014 WAS_CR_33 begin 
+		// create XmlHttpObject
+		function getXmlHttpObject() {
+			var xmlHttp;
+			try {
+				// Firefox, Opera 8.0+, Safari
+				xmlHttp = new XMLHttpRequest();
+			} 
+			catch (e) {
+				// Internet Explorer
+				try {
+					xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+				} 
+				catch (e) {
+					xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+			}
+			if (!xmlHttp) {
+				alert("Your browser does not support dynamic requests");
+			}
+			return xmlHttp;
+		}
+		// create dropList reading content from file
+		function dropListFromFile (listId, fileName) {
+			var listId = document.getElementById(listId);
+			var txtFile = new getXmlHttpObject();
+			var allText;
+			var line;
+			txtFile.open("GET", fileName + ".txt", true);
+			txtFile.onreadystatechange = function() {
+				if (txtFile.readyState === 4) {  // document is ready to parse.
+					if (txtFile.status === 200) {  // file is found
+						allText = txtFile.responseText.split("\n");
+						for(i=0; i<allText.length-1; i++)	{        
+							var line = allText[i].split(",");
+							var option = document.createElement("option");
+							option.text = line;
+							option.value = line;		
+							try {
+								listId.add(option, null); //Standard 
+							}
+							catch(e) {
+								listId.add(option); // IE only
+							}
+						} 			
+					}
+				}	
+			}
+			txtFile.send(null);	
+		}
+		// end CASP AMO 10_01_2014 WAS_CR_33
+	//  End -->
+	</script>
+</head>
+<body onload="Init()" bgcolor="#DBEDF7">
+&nbsp;
+<center><table border="0" width="95%">
+<tbody><tr>
+<td align="LEFT" width="20%"><img src="ESA%20Job%20Application%20Form_files/Esa_blogo.gif"></td>
+<td align="CENTER" width="60%"><font face="Tahoma"><font color="#0033CC"><font size="+2">Vacancy 
+Application Form</font></font></font></td>
+<td class="Light" align="CENTER" width="20%"><font color="#FF00CC"><a href="http://appform.esa.int/was-html/ext_help.html" target="ESA_VN_HELP">Help completing the form</a></font></td>
+</tr>
+</tbody></table></center>
+
+<!---///
+<center>
+<hr><b><font color="#ff0000"> Dear user,<br>
+Please be informed that due to a server maintenance the application will not be available on Thursday 27 July 2006 from 18:00 to 20:00.<br>
+For any further information please do not hesitate to contact us via phone (+39 06 94180444) or via email (idhelp@esa.int)<br>
+<hr></b>
+///--->
+
+<center>
+<hr><b><font color="#ff0000"><p>To enable us to give full attention to your 
+application it is essential that you carefully complete all items below.
+</p></font></b><font color="#ff0000"></font><p><font color="#ff0000"><b>When sending this form to ESA please 
+attach your personal CV and a cover letter in a single electronic file (PDF or Microsoft Word format).
+</b></font></p></center>
+<!--	CASP_20022009_WAS_CR_9 start	-->
+<p>
+In accordance with the European Space Agency's security procedures and 
+as part of the selection process, successful candidates will be required
+ to undergo basic screening before appointment.
+ESA also reserves the right to conduct in-depth investigations as 
+required and in accordance with its security policy.
+</p>
+<!--	end CASP_20022009_WAS_CR_9	-->
+<form enctype="multipart/form-data" action="/was_plsql/cgi-bin/add_application_long" method="POST" onsubmit="return checkrequired(this)">
+<!--    CASP_22072010_WAS_CR_15_MIC start
+Following form action does not work in production environment
+<form ENCTYPE="multipart/form-data" ACTION="/wasApp/wasCart/add_application_long" METHOD="POST" onSubmit="return checkrequired(this)">
+        CASP_22072010_WAS_CR_15_MIC end  -->
+<center>
+
+<p>
+</p><hr align="CENTER"></center>
+
+<center>
+<center><table border="0" width="95%">
+<tbody><tr>
+<td class="Head" align="RIGHT" width="50%">You are applying for: &nbsp;</td>
+<td align="LEFT" width="50%"><select name="vn_reference" size="1"><option value="ESA/VN-ESOC(2014)027,REV.1" selected="selected">ESA/VN-ESOC(2014)027,REV.1</option></select></td> 
+
+</tr>
+</tbody></table></center>
+
+<center>
+<hr align="CENTER"></center>
+<center><table border="0" width="95%">
+<tbody><tr>
+<td class="Head" colspan="5">Personal information</td></tr>
+
+<tr>
+<td align="RIGHT" width="15%"><b>Title:</b></td>
+<td align="LEFT"><select name="mr_mrs"><option selected="selected">Mr.</option><option>Ms.</option></select></td>
+<td colspan="3" align="LEFT">Family Name:&nbsp;<input name="surname" size="50" maxlength="50" type="TEXT"></td>
+</tr>
+
+<tr>
+<td align="RIGHT" width="15%">First
+Name:</td>
+<td colspan="4" align="LEFT"><input name="first_name" size="20" maxlength="20" type="TEXT"></td>
+</tr>
+
+<tr>
+<td align="RIGHT" width="15%">Name at Birth</td>
+<td colspan="4" align="LEFT"><input name="name_birth" size="50" maxlength="50" type="TEXT"></td>
+</tr>
+
+<tr>
+<td align="RIGHT" width="15%">Maiden Name</td>
+<td colspan="4" align="LEFT"><input name="maiden_name" size="50" maxlength="50" type="TEXT"></td>
+</tr>
+<tr>
+<td align="RIGHT" width="15%">Date of Birth</td>
+<td class="Light" colspan="4" align="CENTER">Day: <input name="birth_date_day" size="2" maxlength="2" type="TEXT">
+Month: <select name="birth_date_month">
+<option selected="selected" value="01">January </option>
+<option value="02"> February </option>
+<option value="03"> March </option>
+<option value="04"> April </option>
+<option value="05"> May </option>
+<option value="06"> June </option>
+<option value="07"> July </option>
+<option value="08"> August </option>
+<option value="09"> September </option>
+<option value="10"> October </option>
+<option value="11"> November </option>
+<option value="12"> December </option></select>
+Year(YYYY): <input name="birth_date_year" size="4" maxlength="4" onblur="checkYear(this)" type="TEXT"></td>
+</tr>
+
+<tr>
+<td align="RIGHT" width="15%">Place of Birth</td>
+<td class="Light" align="RIGHT">Town:</td>
+<td align="LEFT"><input name="birth_place_town" size="20" maxlength="20" type="TEXT"></td>
+<td class="Light" align="RIGHT">Country:</td>
+<!-- CASP AMO 10_01_2014 WAS_CR_33 begin -->
+<td align="LEFT">
+<select name="birth_place_country" id="birth_place_country">
+<option selected="selected"></option>
+<option value="Austria">Austria</option><option value="Belgium">Belgium</option><option value="Canada">Canada</option><option value="Czech Republic">Czech Republic</option><option value="Denmark">Denmark</option><option value="Estonia">Estonia</option><option value="Finland">Finland</option><option value="France">France</option><option value="Germany">Germany</option><option value="Greece">Greece</option><option value="Great Britain">Great Britain</option><option value="Hungary">Hungary</option><option value="Ireland">Ireland</option><option value="Italy">Italy</option><option value="Latvia">Latvia</option><option value="Lithuania">Lithuania</option><option value="Luxembourg">Luxembourg</option><option value="Norway">Norway</option><option value="Poland">Poland</option><option value="Portugal">Portugal</option><option value="Romania">Romania</option><option value="Slovenia">Slovenia</option><option value="Spain">Spain</option><option value="Sweden">Sweden</option><option value="Switzerland">Switzerland</option><option value="The Netherlands">The Netherlands</option><option value="Afghanistan">Afghanistan</option><option value="Albania">Albania</option><option value="Algeria">Algeria</option><option value="Andorra">Andorra</option><option value="Angola">Angola</option><option value="Anguilla">Anguilla</option><option value="Antigua and Barbuda">Antigua and Barbuda</option><option value="Argentina">Argentina</option><option value="Armenia">Armenia</option><option value="Aruba">Aruba</option><option value="Australia">Australia</option><option value="Azerbaijan">Azerbaijan</option><option value="Bahamas">Bahamas</option><option value="Bahrain">Bahrain</option><option value="Bangladesh">Bangladesh</option><option value="Barbados">Barbados</option><option value="Belarus">Belarus</option><option value="Belize">Belize</option><option value="Benin">Benin</option><option value="Bermuda">Bermuda</option><option value="Bhutan">Bhutan</option><option value="Bolivia">Bolivia</option><option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option><option value="Botswana">Botswana</option><option value="Brazil">Brazil</option><option value="Brunei">Brunei</option><option value="Bulgaria">Bulgaria</option><option value="Burkina Faso">Burkina Faso</option><option value="Burma">Burma</option><option value="Burundi">Burundi</option><option value="Cambodia">Cambodia</option><option value="Cameroon">Cameroon</option><option value="Cape Verde">Cape Verde</option><option value="Central African Republic">Central African Republic</option><option value="Chad">Chad</option><option value="Chile">Chile</option><option value="China">China</option><option value="Christmas Island">Christmas Island</option><option value="Colombia">Colombia</option><option value="Comoros">Comoros</option><option value="Cook Islands">Cook Islands</option><option value="Costa Rica">Costa Rica</option><option value="Ivory Coast">Ivory Coast</option><option value="Croatia">Croatia</option><option value="Cuba">Cuba</option><option value="Cyprus">Cyprus</option><option value="Democratic Republic of the Congo">Democratic Republic of the Congo</option><option value="Djibouti">Djibouti</option><option value="Dominican Republic">Dominican Republic</option><option value="East Timor">East Timor</option><option value="Ecuador">Ecuador</option><option value="Egypt">Egypt</option><option value="El Salvador">El Salvador</option><option value="Equatorial Guinea">Equatorial Guinea</option><option value="Eritrea">Eritrea</option><option value="Ethiopia">Ethiopia</option><option value="Falkland Islands">Falkland Islands</option><option value="Fiji">Fiji</option><option value="French Guiana">French Guiana</option><option value="Gabon">Gabon</option><option value="Gambia">Gambia</option><option value="Georgia">Georgia</option><option value="Ghana">Ghana</option><option value="Gibraltar">Gibraltar</option><option value="Grenada">Grenada</option><option value="Guatemala">Guatemala</option><option value="Guinea">Guinea</option><option value="Guyana">Guyana</option><option value="Haiti">Haiti</option><option value="Honduras">Honduras</option><option value="Hong Kong">Hong Kong</option><option value="Iceland">Iceland</option><option value="India">India</option><option value="Indonesia">Indonesia</option><option value="Iran">Iran</option><option value="Iraq">Iraq</option><option value="Israel">Israel</option><option value="Jamaica">Jamaica</option><option value="Japan">Japan</option><option value="Jordan">Jordan</option><option value="Kazakhstan">Kazakhstan</option><option value="Kenya">Kenya</option><option value="Kiribati">Kiribati</option><option value="Kuwait">Kuwait</option><option value="Kyrgyzstan">Kyrgyzstan</option><option value="Laos">Laos</option><option value="Lebanon">Lebanon</option><option value="Lesotho">Lesotho</option><option value="Liberia">Liberia</option><option value="Libya">Libya</option><option value="Liechtenstein">Liechtenstein</option><option value="Macau">Macau</option><option value="Macedonia">Macedonia</option><option value="Madagascar">Madagascar</option><option value="Malawi">Malawi</option><option value="Malaysia">Malaysia</option><option value="Maldives">Maldives</option><option value="Mali">Mali</option><option value="Malta">Malta</option><option value="Marshall Islands">Marshall Islands</option><option value="Mauritania">Mauritania</option><option value="Mauritius">Mauritius</option><option value="Mexico">Mexico</option><option value="Micronesia">Micronesia</option><option value="Moldova">Moldova</option><option value="Monaco">Monaco</option><option value="Mongolia">Mongolia</option><option value="Montenegro">Montenegro</option><option value="Montserrat">Montserrat</option><option value="Morocco">Morocco</option><option value="Mozambique">Mozambique</option><option value="Namibia">Namibia</option><option value="Nauru">Nauru</option><option value="Nepal">Nepal</option><option value="New Caledonia">New Caledonia</option><option value="New Zealand">New Zealand</option><option value="Nicaragua">Nicaragua</option><option value="Niger">Niger</option><option value="Nigeria">Nigeria</option><option value="Niue">Niue</option><option value="Norfolk Islands">Norfolk Islands</option><option value="Oman">Oman</option><option value="Pakistan">Pakistan</option><option value="Palau">Palau</option><option value="Palestine">Palestine</option><option value="Panama">Panama</option><option value="Papua New Guinea">Papua New Guinea</option><option value="Paraguay">Paraguay</option><option value="Peru">Peru</option><option value="Philippines">Philippines</option><option value="Puerto Rico">Puerto Rico</option><option value="Qatar">Qatar</option><option value="Russian Federation">Russian Federation</option><option value="Rwanda">Rwanda</option><option value="Saint Helena">Saint Helena</option><option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option><option value="Saint Lucia">Saint Lucia</option><option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option><option value="Samoa">Samoa</option><option value="San Marino">San Marino</option><option value="Sao Tome and Principe">Sao Tome and Principe</option><option value="Saudi Arabia">Saudi Arabia</option><option value="Senegal">Senegal</option><option value="Serbia">Serbia</option><option value="Seychelles">Seychelles</option><option value="Sierra Leone">Sierra Leone</option><option value="Singapore">Singapore</option><option value="Slovakia">Slovakia</option><option value="Solomon Islands">Solomon Islands</option><option value="Somalia">Somalia</option><option value="South Africa">South Africa</option><option value="South Korea">South Korea</option><option value="Sri Lanka">Sri Lanka</option><option value="Sudan">Sudan</option><option value="Suriname">Suriname</option><option value="Swaziland">Swaziland</option><option value="Syria">Syria</option><option value="Taiwan">Taiwan</option><option value="Tajikistan">Tajikistan</option><option value="Tanzania">Tanzania</option><option value="Thailand">Thailand</option><option value="Togo">Togo</option><option value="Tokelau">Tokelau</option><option value="Tonga">Tonga</option><option value="Trinidad and Tobago">Trinidad and Tobago</option><option value="Tunisia">Tunisia</option><option value="Turkey">Turkey</option><option value="Turkmenistan">Turkmenistan</option><option value="Turks and Caicos Islands">Turks and Caicos Islands</option><option value="Tuvalu">Tuvalu</option><option value="Uganda">Uganda</option><option value="Ukraine">Ukraine</option><option value="Uruguay">Uruguay</option><option value="United Arab Emirates">United Arab Emirates</option><option value="USA">USA</option><option value="Uzbekistan">Uzbekistan</option><option value="Vanuatu">Vanuatu</option><option value="Vatican City">Vatican City</option><option value="Venezuela">Venezuela</option><option value="Vietnam">Vietnam</option><option value="Wallis and Futuna">Wallis and Futuna</option><option value="Yemen">Yemen</option><option value="Zambia">Zambia</option><option value="Zimbabwe">Zimbabwe</option></select>
+<script>dropListFromFile("birth_place_country", "countries");</script>
+</td>
+<!-- end CASP AMO 10_01_2014 WAS_CR_33 -->
+<!-- CASP AMO 10_01_2014 WAS_CR_33 begin -->
+<!--
+<td ALIGN=LEFT>
+<select NAME="birth_place_country">
+<option SELECTED></option> 
+-->
+<!-- end CASP AMO 10_01_2014 WAS_CR_33 -->
+<!-- CASP AMO 22_06_2012 WAS_CR_24 begin 
+<option>Afghanistan</option><option>Albania</option><option>Algeria</option><option>Andorra</option>
+<option>Angola</option><option>Argentina</option><option>Australia</option>
+<option>Austria</option>
+<option>Bahamas</option>
+<option>Bahrein</option><option>Bangladesh</option><option>Barbados</option>
+<option>Belgium</option>
+<option>Belize</option>
+<option>Benin</option><option>Bermuda</option><option>Bolivia</option><option>Bosnia-Herzegovina</option>
+<option>Botswana</option>
+<option>Brasil</option><option>Brunei</option><option>Bulgaria</option>
+<option>Burkina Faso</option><option>Burma</option><option>Burundi</option>
+<option>Cameroun</option>
+<option>Canada</option>
+<option>Central African Republic</option><option>Chad</option><option>Chile</option>
+<option>China</option><option>CIS</option><option>Colombia</option>
+<option>Comores Islands</option><option>Congo</option><option>Costa Rica</option><option>Croatia</option>
+<option>Cuba</option><option>Cyprus</option>
+<option>Czech Republic</option>
+<option>Denmark</option>
+<option>Djibouti</option><option>Dominican Republic</option>
+<option>Egypt</option>
+<option>Ethiopia</option><option>Falkland Islands</option><option>Fiji Islands</option>
+<option>Finland</option>
+<option>France</option>
+<option>Gabon</option><option>Gambia</option>
+<option>Germany</option>
+<option>Ghana</option><option>Gibraltar</option>
+<option>Greece</option>
+<option>Grenada</option><option>Guatemala</option><option>Guinea</option>
+<option>Guyana</option><option>Haiti</option><option>Honduras</option><option>Hong Kong</option>
+<option>Hungary</option>
+<option>Iceland</option><option>India</option><option>Indonesia</option>
+<option>Iran</option>
+<option>Iraq</option>
+<option>Ireland</option>
+<option>Israel</option>
+<option>Italy</option>
+<option>Ivory Coast</option><option>Jamaica</option>
+<option>Japan</option><option>Jordan</option><option>Kampuchea</option><option>Kenya</option>
+<option>Korea</option><option>Kuwait</option><option>Laos</option><option>Lebanon</option>
+<option>Lesotho</option><option>Liberia</option><option>Libya</option><option>Liechtenstein</option>
+<option>Luxemburg</option>
+<option>Macao</option><option>Macedonia</option><option>Malagasy Republic</option>
+<option>Malasia</option><option>Malawi</option><option>Maldives</option><option>Mali</option>
+<option>Malta</option><option>Mauritania</option><option>Mauritius</option><option>Mexico</option>
+<option>Monaco</option><option>Morocco</option><option>Mozambique</option><option>Nauru</option>
+<option>Nepal</option><option>New Caledonia</option><option>New Zealand</option>
+<option>Nicaragua</option><option>Niger</option><option>Nigeria</option>
+<option>Norway</option>
+<option>Pakistan</option><option>Panama</option><option>Papua New Guinea</option>
+<option>Paraguay</option><option>Peru</option><option>Philippines</option><option>Poland</option>
+<option>Portugal</option>
+<option>Puerto Rico</option><option>Qatar</option>
+<option>Romania</option>
+<option>Russia</option>
+<option>Rwanda</option><option>San Marino</option><option>Saudi Arabia</option>
+<option>Senegal</option><option>Seychelles</option><option>Serbia &amp; Montenegro</option><option>Sierra Leone</option>
+<option>Sikkim</option><option>Singapore</option><option>Slovakia</option><option>Slovenia</option><option>Somalia</option>
+<option>South Africa</option>
+<option>Spain</option>
+<option>Sri-Lanka</option><option>St. Lucia</option>
+<option>St. Vincent</option><option>Sudan</option><option>Surinam</option><option>Swaziland</option>
+<option>Sweden</option>
+<option>Switzerland</option><option>Syria</option><option>Taiwan</option><option>Tanzania</option>
+<option>Thailand</option>
+<option>The Netherlands</option>
+<option>Togo</option><option>Tonga</option>
+<option>Trinidad &amp; Tobago</option><option>Tunisia</option><option>Turkey</option>
+<option>Uganda</option><option>United Arab Emirates</option>
+<option>United Kingdom</option>
+<option>United States of America</option><option>Uraguay</option><option>Venezuela</option>
+<option>Vietnam</option><option>Western Samoa</option>
+<option>Yemen People's Democratic Rep.</option>
+<option>Zaire</option><option>Zambia</option><option>Zimbabwe</option>
+-->
+<!-- CASP AMO 10_01_2014 WAS_CR_33 begin -->
+<!--
+<option>Afghanistan</option><option>Albania</option><option>Algeria</option><option>Amer.Virgin Is.</option>
+<option>Andorran</option><option>Angola</option><option>Anguilla</option><option>Antarctica</option><option>Antigua/Barbuda</option>
+<option>Argentina</option><option>Armenia</option><option>Aruba</option><option>Australia</option>
+<option>Austria</option><option>Azerbaijan</option><option>Bahamas</option><option>Bahrain</option>
+<option>Bangladesh</option><option>Barbados</option><option>Belarus</option><option>Belgium</option>
+<option>Belize</option><option>Benin</option><option>Bermuda</option><option>Bhutan</option>
+<option>Bolivia</option><option>Bosnia-Herz.</option><option>Botswana</option><option>Bouvet Islands</option>
+<option>Brazil</option><option>Brit.Ind.Oc.Ter</option><option>Brit.Virgin Is.</option><option>Brunei Daruss.</option>
+<option>Bulgaria</option><option>Burkina Faso</option><option>Burma</option><option>Burundi</option>
+<option>Cambodia</option><option>Cameroon</option><option>Canada</option><option>Cape Verde</option>
+<option>CAR</option><option>Cayman Islands</option><option>Chad</option><option>Chile</option>
+<option>China</option><option>Christmas Islnd</option><option>Coconut Islands</option><option>Colombia</option>
+<option>Comoros</option><option>Cook Islands</option><option>Costa Rica</option><option>Cote d'Ivoire</option>
+<option>Croatia</option><option>Cuba</option><option>Cyprus</option><option>Czech Republic</option>
+<option>Dem. Rep. Congo</option><option>Denmark</option><option>Djibouti</option><option>Dominica</option>
+<option>Dominican Rep.</option><option>Dutch Antilles</option><option>East Timor</option><option>Ecuador</option>
+<option>Egypt</option><option>El Salvador</option><option>Equatorial Guin</option><option>Eritrea</option>
+<option>Estonia</option><option>Ethiopia</option><option>Falkland Islnds</option><option>Faroe Islands</option>
+<option>Fiji</option><option>Finland</option><option>France</option><option>Frenc.Polynesia</option>
+<option>French Guayana</option><option>French S.Territ</option><option>Gabon</option><option>Gambia</option>
+<option>Georgia</option><option>Germany</option><option>Ghana</option><option>Gibraltar</option>
+<option>Greece</option><option>Greenland</option><option>Grenada</option><option>Guadeloupe</option>
+<option>Guam</option><option>Guatemala</option><option>Guinea</option><option>Guinea-Bissau</option>
+<option>Guyana</option><option>Haiti</option><option>Heard/McDon.Isl</option><option>Honduras</option>
+<option>Hong Kong</option><option>Hungary</option><option>Iceland</option><option>India</option>
+<option>Indonesia</option><option>Iran</option><option>Iraq</option><option>Ireland</option>
+<option>Israel</option><option>Italy</option><option>Jamaica</option><option>Japan</option>
+<option>Jordan</option><option>Kazakhstan</option><option>Kenya</option><option>Kiribati</option>
+<option>Kuwait</option><option>Kyrgyzstan</option><option>Laos</option><option>Latvia</option>
+<option>Lebanon</option><option>Lesotho</option><option>Liberia</option><option>Libya</option>
+<option>Liechtenstein</option><option>Lithuania</option><option>Luxembourg</option><option>Macau</option>
+<option>Macedonia</option><option>Madagascar</option><option>Malawi</option><option>Malaysia</option>
+<option>Maldives</option><option>Mali</option><option>Malta</option><option>Marshall Islnds</option>
+<option>Martinique</option><option>Mauretania</option><option>Mauritius</option><option>Mayotte</option>
+<option>Mexico</option><option>Micronesia</option><option>Minor Outl.Isl.</option><option>Moldova</option>
+<option>Monaco</option><option>Mongolia</option><option>Montserrat</option><option>Morocco</option>
+<option>Mozambique</option><option>N.Mariana Islnd</option><option>Namibia</option><option>Nauru</option>
+<option>Nepal</option><option>Netherlands</option><option>New Caledonia</option><option>New Zealand</option>
+<option>Nicaragua</option><option>Niger</option><option>Nigeria</option><option>Niue</option>
+<option>Norfolk Islands</option><option>North Korea</option><option>Norway</option><option>Oman</option>
+<option>Pakistan</option><option>Palau</option><option>Palestine</option><option>Panama</option>
+<option>Pap. New Guinea</option><option>Paraguay</option><option>Peru</option><option>Philippines</option>
+<option>Pitcairn Islnds</option><option>Poland</option><option>Portugal</option><option>Puerto Rico</option>
+<option>Qatar</option><option>Rep.of Congo</option><option>Reunion</option><option>Romania</option>
+<option>Russian Fed.</option><option>Rwanda</option><option>S. Sandwich Ins</option><option>S.Tome,Principe</option>
+<option>Saint Helena</option><option>Samoa</option><option>Samoa, America</option><option>San Marino</option>
+<option>Saudi Arabia</option><option>Senegal</option><option>Serbia/Monten.</option><option>Seychelles</option>
+<option>Sierra Leone</option><option>Singapore</option><option>Slovakia</option><option>Slovenia</option>
+<option>Solomon Islands</option><option>Somalia</option><option>South Africa</option><option>South Korea</option>
+<option>Spain</option><option>Sri Lanka</option><option>St Kitts&Nevis</option><option>St. Lucia</option>
+<option>St. Vincent</option><option>St.Pier,Miquel.</option><option>Sudan</option><option>Suriname</option>
+<option>Svalbard</option><option>Swaziland</option><option>Sweden</option><option>Switzerland</option>
+<option>Syria</option><option>Taiwan</option><option>Tajikistan</option><option>Tanzania</option>
+<option>Thailand</option><option>Togo</option><option>Tokelau Islands</option><option>Tonga</option>
+<option>Trinidad,Tobago</option><option>Tunisia</option><option>Turkey</option><option>Turkmenistan</option>
+<option>Turksh Caicosin</option><option>Tuvalu</option><option>Uganda</option><option>Ukraine</option>
+<option>United Kingdom</option><option>Uruguay</option><option>USA</option><option>Utd.Arab Emir.</option>
+<option>Uzbekistan</option><option>Vanuatu</option><option>Vatican City</option><option>Venezuela</option>
+<option>Vietnam</option><option>Wallis,Futuna</option><option>West Sahara</option><option>Yemen</option>
+<option>Zambia</option><option>Zimbabwe</option>
+-->
+<!-- end CASP AMO 22_06_2012 WAS_CR_24 -->
+<!-- end CASP AMO 10_01_2014 WAS_CR_33 -->
+<!-- CASP AMO 10_01_2014 WAS_CR_33 begin -->
+<!--
+</select>
+</td>
+-->
+<!-- end CASP AMO 10_01_2014 WAS_CR_33 -->
+</tr>
+<tr>
+<td align="RIGHT" width="15%">Nationality</td>
+<td colspan="2" align="LEFT">
+<!-- CASP AMO 10_01_2014 WAS_CR_33 begin -->
+<select name="nationality" id="nationality">
+<option selected="selected"></option>
+<option value="Austrian">Austrian</option><option value="Belgian">Belgian</option><option value="British">British</option><option value="Canadian">Canadian</option><option value="Czech">Czech</option><option value="Danish">Danish</option><option value="Dutch">Dutch</option><option value="Estonian">Estonian</option><option value="Finnish">Finnish</option><option value="French">French</option><option value="German">German</option><option value="Greek">Greek</option><option value="Hungarian">Hungarian</option><option value="Irish">Irish</option><option value="Italian">Italian</option><option value="Latvian">Latvian</option><option value="Lithuanian">Lithuanian</option><option value="Luxembourger">Luxembourger</option><option value="Norwegian">Norwegian</option><option value="Polish">Polish</option><option value="Portuguese">Portuguese</option><option value="Rumanian">Rumanian</option><option value="Slovenian">Slovenian</option><option value="Spanish">Spanish</option><option value="Swedish">Swedish</option><option value="Swiss">Swiss</option><option value="Afghan">Afghan</option><option value="Albanian">Albanian</option><option value="Algerian">Algerian</option><option value="American">American</option><option value="Andorran">Andorran</option><option value="Angolan">Angolan</option><option value="Anguilla">Anguilla</option><option value="Antiguan-Barbudan">Antiguan-Barbudan</option><option value="Argentinian">Argentinian</option><option value="Armenian">Armenian</option><option value="Arubanic">Arubanic</option><option value="Australian">Australian</option><option value="Azerbaijani">Azerbaijani</option><option value="Bahaman">Bahaman</option><option value="Bahraini">Bahraini</option><option value="Bangladeshi">Bangladeshi</option><option value="Barbadan">Barbadan</option><option value="Belarusian">Belarusian</option><option value="Belizean">Belizean</option><option value="Beninese">Beninese</option><option value="Bermudan">Bermudan</option><option value="Bhutanese">Bhutanese</option><option value="Bolivian">Bolivian</option><option value="Bosnian">Bosnian</option><option value="Botswanan">Botswanan</option><option value="Brazilian">Brazilian</option><option value="Bruneian">Bruneian</option><option value="Bulgarian">Bulgarian</option><option value="Burkinabe">Burkinabe</option><option value="Burmese">Burmese</option><option value="Burundian">Burundian</option><option value="Cambodian">Cambodian</option><option value="Cameroonian">Cameroonian</option><option value="Cape Verdean">Cape Verdean</option><option value="Central African">Central African</option><option value="Chadian">Chadian</option><option value="Chilean">Chilean</option><option value="Chinese">Chinese</option><option value="Christmas Islander">Christmas Islander</option><option value="Colombian">Colombian</option><option value="Comoran">Comoran</option><option value="Cook Islander">Cook Islander</option><option value="Costa Rican">Costa Rican</option><option value="Croatian">Croatian</option><option value="Cuban">Cuban</option><option value="Cypriot">Cypriot</option><option value="Congolese">Congolese</option><option value="Djiboutian">Djiboutian</option><option value="Dominican">Dominican</option><option value="East Timorese">East Timorese</option><option value="Ecuadorian">Ecuadorian</option><option value="Egyptian">Egyptian</option><option value="Equatorial Guinean">Equatorial Guinean</option><option value="Emirati">Emirati</option><option value="Eritrean">Eritrean</option><option value="Ethiopian">Ethiopian</option><option value="Falkland Islander">Falkland Islander</option><option value="Fijian">Fijian</option><option value="Filipino">Filipino</option><option value="French Guianese">French Guianese</option><option value="Gabonese">Gabonese</option><option value="Gambian">Gambian</option><option value="Georgian">Georgian</option><option value="Ghanian">Ghanian</option><option value="Gibraltarian">Gibraltarian</option><option value="Grenadian">Grenadian</option><option value="Guatemalan">Guatemalan</option><option value="Guinean">Guinean</option><option value="Guyanese">Guyanese</option><option value="Haitian">Haitian</option><option value="Honduran">Honduran</option><option value="Hong Konger">Hong Konger</option><option value="I-Kiribati">I-Kiribati</option><option value="Icelandic">Icelandic</option><option value="Indian">Indian</option><option value="Indonesian">Indonesian</option><option value="Iranian">Iranian</option><option value="Iraqi">Iraqi</option><option value="Israeli">Israeli</option><option value="Ivorian">Ivorian</option><option value="Jamaican">Jamaican</option><option value="Japanese">Japanese</option><option value="Jordanian">Jordanian</option><option value="Kazakh">Kazakh</option><option value="Kenyan">Kenyan</option><option value="Kittian">Kittian</option><option value="Korean">Korean</option><option value="Kuwaiti">Kuwaiti</option><option value="Kyrgyzstani">Kyrgyzstani</option><option value="Laotian">Laotian</option><option value="Lebanese">Lebanese</option><option value="Lesothan">Lesothan</option><option value="Liberian">Liberian</option><option value="Libyan">Libyan</option><option value="Liechtensteiner">Liechtensteiner</option><option value="Macanese">Macanese</option><option value="Macedonian">Macedonian</option><option value="Malawian">Malawian</option><option value="Malaysian">Malaysian</option><option value="Maldivian">Maldivian</option><option value="Malgasy">Malgasy</option><option value="Malian">Malian</option><option value="Maltese">Maltese</option><option value="Marshallese">Marshallese</option><option value="Mauretanian">Mauretanian</option><option value="Mauritian">Mauritian</option><option value="Mexican">Mexican</option><option value="Micronesian">Micronesian</option><option value="Moldovan">Moldovan</option><option value="Monegasque">Monegasque</option><option value="Mongolian">Mongolian</option><option value="Montenegrin">Montenegrin</option><option value="Montserrat">Montserrat</option><option value="Moroccan">Moroccan</option><option value="Mozambican">Mozambican</option><option value="Namibian">Namibian</option><option value="Nauruian">Nauruian</option><option value="Nepalese">Nepalese</option><option value="New Caledonian">New Caledonian</option><option value="New Zealander">New Zealander</option><option value="Ni-Vanuatu">Ni-Vanuatu</option><option value="Nicaraguan">Nicaraguan</option><option value="Nigerien">Nigerien</option><option value="Nigerian">Nigerian</option><option value="Niuean">Niuean</option><option value="Norfolk Islander">Norfolk Islander</option><option value="Omani">Omani</option><option value="Pakistani">Pakistani</option><option value="Palauan">Palauan</option><option value="Palestinian">Palestinian</option><option value="Panamanian">Panamanian</option><option value="Papua New Guinean">Papua New Guinean</option><option value="Paraguayan">Paraguayan</option><option value="Peruvian">Peruvian</option><option value="Puerto Rican">Puerto Rican</option><option value="Qatari">Qatari</option><option value="Russian">Russian</option><option value="Rwandan">Rwandan</option><option value="Saint Helenian">Saint Helenian</option><option value="Salvadorian">Salvadorian</option><option value="Samoan">Samoan</option><option value="Sammarinese">Sammarinese</option><option value="Sao Tomean">Sao Tomean</option><option value="Saudi Arabian">Saudi Arabian</option><option value="Senegalese">Senegalese</option><option value="Serbian">Serbian</option><option value="Seychellian">Seychellian</option><option value="Sierra Leonean">Sierra Leonean</option><option value="Singaporean">Singaporean</option><option value="Slovakian">Slovakian</option><option value="Solomonese">Solomonese</option><option value="Somali">Somali</option><option value="South African">South African</option><option value="Sri Lankan">Sri Lankan</option><option value="Saint Lucian">Saint Lucian</option><option value="Sudanese">Sudanese</option><option value="Surinamese">Surinamese</option><option value="Swazi">Swazi</option><option value="Syrian">Syrian</option><option value="Taiwanese">Taiwanese</option><option value="Tajikistani">Tajikistani</option><option value="Tanzanian">Tanzanian</option><option value="Thai">Thai</option><option value="Togolese">Togolese</option><option value="Tokelauan">Tokelauan</option><option value="Tongan">Tongan</option><option value="Trinbagonian">Trinbagonian</option><option value="Tunisian">Tunisian</option><option value="Turkish">Turkish</option><option value="Turkmenian">Turkmenian</option><option value="Turks-Caicos Islander">Turks-Caicos Islander</option><option value="Tuvaluan">Tuvaluan</option><option value="Ugandan">Ugandan</option><option value="Ukrainian">Ukrainian</option><option value="Uruguayan">Uruguayan</option><option value="Uzbek">Uzbek</option><option value="Vaticanian">Vaticanian</option><option value="Venezuelan">Venezuelan</option><option value="Vietnamese">Vietnamese</option><option value="Vincentian">Vincentian</option><option value="Wallisian-Futunan">Wallisian-Futunan</option><option value="Yemeni">Yemeni</option><option value="Zambian">Zambian</option><option value="Zimbabwean">Zimbabwean</option></select>
+<script>dropListFromFile("nationality", "nationalities");</script>
+</td>
+<!-- end CASP AMO 10_01_2014 WAS_CR_33 -->
+<!-- CASP AMO 10_01_2014 WAS_CR_33 begin -->
+<!--
+<select NAME="nationality">
+<option SELECTED></option>
+-->
+<!-- end CASP AMO 10_01_2014 WAS_CR_33 -->
+<!-- CASP AMO 22_06_2012 WAS_CR_24 begin 
+<option>Afghan</option><option>Albanian</option><option>Algerian</option><option>American</option><option>Andorran</option>
+<option>Angolan</option><option>Arab Emirates</option><option>Argentinian</option><option>Australian</option>
+<option>Austrian</option>
+<option>Bahaman</option><option>Bahreinian</option><option>Bangladeshi</option><option>Barbadan</option>
+<option>Belgian</option>
+<option>Belize</option><option>Benin</option><option>Bermudan</option><option>Bolivian</option><option>Bosnian</option>
+<option>Botswanan</option><option>Brasilian</option>
+<option>British</option>
+<option>Brunei</option><option>Bulgarian</option>
+<option>Burkina Faso</option><option>Burmese</option><option>Burundi</option><option>Cameroun</option>
+<option>Canadian</option>
+<option>Central African</option><option>Chadian</option><option>Chilean</option><option>Chinese</option>
+<option>Colombian</option><option>Comores Islander</option><option>Congolese</option><option>Costa Rican</option>
+<option>Croat</option><option>Cuban</option><option>Cypriot</option>
+<option>Czech</option>
+<option>Danish</option>
+<option>Djibouti</option><option>Dominican Republican</option>
+<option>Dutch</option>
+<option>Egyptian</option><option>Equadorian</option>
+<option>Ethiopian</option><option>Ex-URSS</option><option>Falkland Islander</option><option>Fiji Islander</option>
+<option>Finnish</option>
+<option>French</option>
+<option>Gabonese</option><option>Gambian</option>
+<option>German</option>
+<option>Ghanean</option><option>Gibraltarian</option>
+<option>Grenadan</option><option>Guatemala</option><option>Guinean</option><option>Guyanan</option>
+<option>Greek</option>
+<option>Haitian</option>
+<option>Herzegovinian</option><option>Honduran</option><option>Hong Kong</option>
+<option>Hungarian</option>
+<option>Icelandic</option>
+<option>Indian</option><option>Indonesian</option><option>Iraki</option><option>Iranian</option>
+<option>Irish</option>
+<option>Israeli</option>
+<option>Italian</option>
+<option>Ivory Coast</option>
+<option>Jamaican</option><option>Japanese</option><option>Jordanian</option>
+<option>Kampuchean</option><option>Kenyan</option><option>Korean</option><option>Kuwaiti</option><option>Laotian</option>
+<option>Lebanese</option><option>Lesothan</option><option>Liberian</option><option>Libian</option>
+<option>Liechtenstein</option><option>Luxemburger</option><option>Macao</option><option>Macedonian</option>
+<option>Malagasy Republican</option><option>Malasian</option><option>Malawian</option><option>Maldives</option>
+<option>Malian</option><option>Maltese</option><option>Mauritanian</option><option>Mauritian</option>
+<option>Mexican</option><option>Monegasque</option><option>Montenegrin</option><option>Morrocan</option><option>Mozambique</option>
+<option>Nauru</option><option>Nepalese</option><option>New Caledonian</option><option>New Zealander</option>
+<option>Nicaraguan</option><option>Niger</option><option>Nigerian</option><option>Norwegian</option>
+<option>Pakistani</option><option>Panamanean</option><option>Papua New Guinea</option><option>Paraguian</option>
+<option>Peruvian</option><option>Philippino</option><option>Polish</option>
+<option>Portuguese</option>
+<option>Puerto Rican</option>
+<option>Qatar</option>
+<option>Romanian</option>
+<option>Russian</option><option>Rwandan</option><option>Sammarinese</option>
+<option>Saudi</option><option>Senegalese</option><option>Serb</option><option>Seychelles</option><option>Sierra Leonese</option>
+<option>Sikkim</option><option>Singaporean</option><option>Slovak</option><option>Slovenian</option><option>Somalian</option><option>South African</option>
+<option>Spanish</option>
+<option>Sri-Lankan</option><option>St. Lucian</option><option>St.Vincent</option><option>Sudanese</option>
+<option>Surinam</option><option>Swaziland</option>
+<option>Swedish</option>
+<option>Swiss</option>
+<option>Syrian</option><option>Taiwanese</option>
+<option>Tanzanian</option><option>Thailandese</option><option>Togolese</option><option>Tonga</option>
+<option>Trinidad &amp; Tobago</option><option>Tunisian</option><option>Turkish</option><option>Ugandan</option>
+<option>Uraguan</option><option>Venezuelan</option><option>Vietnamese</option>
+<option>Western Samoan</option><option>Yemenite</option>
+<option>Zairean</option><option>Zambian</option><option>Zimbabwean</option>
+-->
+<!-- CASP AMO 10_01_2014 WAS_CR_33 begin -->
+<!--
+<option>Afghan</option><option>Albanian</option><option>Algerian</option><option>American</option>
+<option>Andorran</option><option>Angolan</option><option>Anguilla</option><option>Antarctica</option>
+<option>Antiguan</option><option>Argentinian</option><option>Armenian</option><option>Arubanic</option>
+<option>Australian</option><option>Austrian</option><option>Azerbaijani</option><option>Bahaman</option>
+<option>Bahraini</option><option>Bangladeshi</option><option>Barbadan</option><option>Belarusian</option>
+<option>Belgian</option><option>Belizean</option><option>Beninese</option><option>Bermudan</option>
+<option>Bhutanese</option><option>Bolivian</option><option>Bosnian</option><option>Botswanan</option>
+<option>Bouvet Islands</option><option>Brazilian</option><option>Brit.Ind.Oc.Ter</option><option>British</option>
+<option>Brunei</option><option>Bulgarian</option><option>Burkinabe</option><option>Burmese</option>
+<option>Burundi</option><option>Cambodian</option><option>Cameroonian</option><option>Canadian</option>
+<option>Cape Verdean</option><option>Central African</option><option>Chadian</option><option>Chilean</option>
+<option>Chinese</option><option>Colombian</option><option>Comoran</option><option>Congolese</option>
+<option>Cook Islands</option><option>Costa Rican</option><option>Croatian</option><option>Cuban</option>
+<option>Cypriot</option><option>Czech</option><option>Danish</option><option>Djiboutian</option>
+<option>Dominican</option><option>Dutch</option><option>Dutch</option><option>East Timor</option>
+<option>Ecuadorian</option><option>Egyptian</option><option>Equatorial Guin</option><option>Eritrean</option>
+<option>Estonian</option><option>Ethiopian</option><option>f. St Kitts/Nev</option><option>F. Trinidad & T</option>
+<option>Fijian</option><option>Filipino</option><option>Finnish</option><option>French</option>
+<option>Gabonese</option><option>Gambian</option><option>Georgian</option><option>German</option>
+<option>Ghanian</option><option>Gibraltar</option><option>Greek</option><option>Grenadian</option>
+<option>Guatemalan</option><option>Guinean</option><option>Guyanese</option><option>Haitian</option>
+<option>Heard/McDon.Isl</option><option>Honduran</option><option>Hong Kong</option><option>Hungarian</option>
+<option>Icelandic</option><option>Indian</option><option>Indonesian</option><option>Iranian</option>
+<option>Iraqi</option><option>Irish</option><option>Israeli</option><option>Italian</option>
+<option>Ivoirian</option><option>Jamaican</option><option>Japanese</option><option>Jordanian</option>
+<option>Kazakh</option><option>Kenyan</option><option>Kiribati</option><option>Korean</option>
+<option>Kuwaiti</option><option>Kyrgyzstani</option><option>Laotian</option><option>Latvian</option>
+<option>Lebanese</option><option>Lesothan</option><option>Liberian</option><option>Libyan</option>
+<option>Liechtenstein</option><option>Lithuanian</option><option>Lucian</option><option>Luxembourgian</option>
+<option>Macedonian</option><option>Madagascan</option><option>Malawian</option><option>Malaysian</option>
+<option>Maldivian</option><option>Malian</option><option>Maltese</option><option>Marianian</option>
+<option>Marshallese</option><option>Mauretanian</option><option>Mauritian</option><option>Mexican</option>
+<option>Micronesian</option><option>Minor Outl.Isl.</option><option>Moldovan</option><option>Monegasque</option>
+<option>Mongolian</option><option>Montserrat</option><option>Moroccan</option><option>Mozambican</option>
+<option>Namibian</option><option>Nauruian</option><option>Nepalese</option><option>New Zealand</option>
+<option>Nicaraguan</option><option>Nigerian</option><option>Nigerien</option><option>Niuean</option>
+<option>Ni-Vanuatu</option><option>Norfolk Islands</option><option>Norwegian</option><option>Norwegian</option>
+<option>Omani</option><option>Pakistani</option><option>Palau</option><option>Palestine</option>
+<option>Panamanian</option><option>Pap.New Guinean</option><option>Paraguayan</option><option>Peruvian</option>
+<option>Polish</option><option>Portuguese</option><option>Qatari</option><option>Rumanian</option>
+<option>Russian</option><option>Rwandan</option><option>Saint Helena</option><option>Salvadoran</option>
+<option>Sammarinese</option><option>Samoan</option><option>Sao Tomean</option><option>Saudi Arabian</option>
+<option>Senegalese</option><option>Serbian/Monten.</option><option>Seychellian</option><option>Sierra Leonean</option>
+<option>Singaporean</option><option>Slovakian</option><option>Slovenian</option><option>Solomonese</option>
+<option>Somali</option><option>South African</option><option>South Georgia</option><option>Spanish</option>
+<option>Sri Lankan</option><option>Sudanese</option><option>Surinamese</option><option>Swazi</option>
+<option>Swedish</option><option>Swiss</option><option>Syrian</option><option>Tajikistani</option>
+<option>Tanzanian</option><option>Thai</option><option>Togolese</option><option>Tokelau Islands</option>
+<option>Tongan</option><option>Tunisian</option><option>Turkish</option><option>Turkmenian</option>
+<option>Turksh Caicosin</option><option>Tuvaluese</option><option>Ugandan</option><option>Ukrainian</option>
+<option>Unit.Arab Emir.</option><option>Uruguayan</option><option>Uzbekistani</option><option>Vatican City</option>
+<option>Venezuelan</option><option>Vietnamese</option><option>Vincentian</option><option>Wallis,Futuna</option>
+<option>Yemeni</option><option>Zambian</option><option>Zimbabwean</option>
+-->
+<!-- end CASP AMO 10_01_2014 WAS_CR_33 -->
+<!-- end CASP AMO 22_06_2012 WAS_CR_24 -->
+<!-- CASP AMO 10_01_2014 WAS_CR_33 begin -->
+<!--
+</select></td>
+-->
+<!-- end CASP AMO 10_01_2014 WAS_CR_33 -->
+</tr>
+<tr>
+<td align="RIGHT" width="15%">&nbsp;</td>
+<td class="Light" colspan="2" align="RIGHT">Do you hold
+a second Nationality?</td>
+<td class="Light" align="RIGHT">NO<input name="fl_dual_nationality" value="no" checked="checked" type="RADIO"></td>
+</tr>
+<tr>
+<td class="Light" colspan="4" align="RIGHT">YES<input name="fl_dual_nationality" value="yes" type="RADIO"></td>
+<td class="Light" align="LEFT">Which?&nbsp;
+<!-- CASP AMO 10_01_2014 WAS_CR_33 begin -->
+<!--
+<input TYPE="TEXT" NAME="dual_nationality_which" SIZE="20" MAXLENGTH="20">
+<!-- end CASP AMO 10_01_2014 WAS_CR_33 -->
+<!-- CASP AMO 10_01_2014 WAS_CR_33 begin -->
+<select name="dual_nationality_which" id="dual_nationality_which">
+<option selected="selected"></option>
+<option value="Austrian">Austrian</option><option value="Belgian">Belgian</option><option value="British">British</option><option value="Canadian">Canadian</option><option value="Czech">Czech</option><option value="Danish">Danish</option><option value="Dutch">Dutch</option><option value="Estonian">Estonian</option><option value="Finnish">Finnish</option><option value="French">French</option><option value="German">German</option><option value="Greek">Greek</option><option value="Hungarian">Hungarian</option><option value="Irish">Irish</option><option value="Italian">Italian</option><option value="Latvian">Latvian</option><option value="Lithuanian">Lithuanian</option><option value="Luxembourger">Luxembourger</option><option value="Norwegian">Norwegian</option><option value="Polish">Polish</option><option value="Portuguese">Portuguese</option><option value="Rumanian">Rumanian</option><option value="Slovenian">Slovenian</option><option value="Spanish">Spanish</option><option value="Swedish">Swedish</option><option value="Swiss">Swiss</option><option value="Afghan">Afghan</option><option value="Albanian">Albanian</option><option value="Algerian">Algerian</option><option value="American">American</option><option value="Andorran">Andorran</option><option value="Angolan">Angolan</option><option value="Anguilla">Anguilla</option><option value="Antiguan-Barbudan">Antiguan-Barbudan</option><option value="Argentinian">Argentinian</option><option value="Armenian">Armenian</option><option value="Arubanic">Arubanic</option><option value="Australian">Australian</option><option value="Azerbaijani">Azerbaijani</option><option value="Bahaman">Bahaman</option><option value="Bahraini">Bahraini</option><option value="Bangladeshi">Bangladeshi</option><option value="Barbadan">Barbadan</option><option value="Belarusian">Belarusian</option><option value="Belizean">Belizean</option><option value="Beninese">Beninese</option><option value="Bermudan">Bermudan</option><option value="Bhutanese">Bhutanese</option><option value="Bolivian">Bolivian</option><option value="Bosnian">Bosnian</option><option value="Botswanan">Botswanan</option><option value="Brazilian">Brazilian</option><option value="Bruneian">Bruneian</option><option value="Bulgarian">Bulgarian</option><option value="Burkinabe">Burkinabe</option><option value="Burmese">Burmese</option><option value="Burundian">Burundian</option><option value="Cambodian">Cambodian</option><option value="Cameroonian">Cameroonian</option><option value="Cape Verdean">Cape Verdean</option><option value="Central African">Central African</option><option value="Chadian">Chadian</option><option value="Chilean">Chilean</option><option value="Chinese">Chinese</option><option value="Christmas Islander">Christmas Islander</option><option value="Colombian">Colombian</option><option value="Comoran">Comoran</option><option value="Cook Islander">Cook Islander</option><option value="Costa Rican">Costa Rican</option><option value="Croatian">Croatian</option><option value="Cuban">Cuban</option><option value="Cypriot">Cypriot</option><option value="Congolese">Congolese</option><option value="Djiboutian">Djiboutian</option><option value="Dominican">Dominican</option><option value="East Timorese">East Timorese</option><option value="Ecuadorian">Ecuadorian</option><option value="Egyptian">Egyptian</option><option value="Equatorial Guinean">Equatorial Guinean</option><option value="Emirati">Emirati</option><option value="Eritrean">Eritrean</option><option value="Ethiopian">Ethiopian</option><option value="Falkland Islander">Falkland Islander</option><option value="Fijian">Fijian</option><option value="Filipino">Filipino</option><option value="French Guianese">French Guianese</option><option value="Gabonese">Gabonese</option><option value="Gambian">Gambian</option><option value="Georgian">Georgian</option><option value="Ghanian">Ghanian</option><option value="Gibraltarian">Gibraltarian</option><option value="Grenadian">Grenadian</option><option value="Guatemalan">Guatemalan</option><option value="Guinean">Guinean</option><option value="Guyanese">Guyanese</option><option value="Haitian">Haitian</option><option value="Honduran">Honduran</option><option value="Hong Konger">Hong Konger</option><option value="I-Kiribati">I-Kiribati</option><option value="Icelandic">Icelandic</option><option value="Indian">Indian</option><option value="Indonesian">Indonesian</option><option value="Iranian">Iranian</option><option value="Iraqi">Iraqi</option><option value="Israeli">Israeli</option><option value="Ivorian">Ivorian</option><option value="Jamaican">Jamaican</option><option value="Japanese">Japanese</option><option value="Jordanian">Jordanian</option><option value="Kazakh">Kazakh</option><option value="Kenyan">Kenyan</option><option value="Kittian">Kittian</option><option value="Korean">Korean</option><option value="Kuwaiti">Kuwaiti</option><option value="Kyrgyzstani">Kyrgyzstani</option><option value="Laotian">Laotian</option><option value="Lebanese">Lebanese</option><option value="Lesothan">Lesothan</option><option value="Liberian">Liberian</option><option value="Libyan">Libyan</option><option value="Liechtensteiner">Liechtensteiner</option><option value="Macanese">Macanese</option><option value="Macedonian">Macedonian</option><option value="Malawian">Malawian</option><option value="Malaysian">Malaysian</option><option value="Maldivian">Maldivian</option><option value="Malgasy">Malgasy</option><option value="Malian">Malian</option><option value="Maltese">Maltese</option><option value="Marshallese">Marshallese</option><option value="Mauretanian">Mauretanian</option><option value="Mauritian">Mauritian</option><option value="Mexican">Mexican</option><option value="Micronesian">Micronesian</option><option value="Moldovan">Moldovan</option><option value="Monegasque">Monegasque</option><option value="Mongolian">Mongolian</option><option value="Montenegrin">Montenegrin</option><option value="Montserrat">Montserrat</option><option value="Moroccan">Moroccan</option><option value="Mozambican">Mozambican</option><option value="Namibian">Namibian</option><option value="Nauruian">Nauruian</option><option value="Nepalese">Nepalese</option><option value="New Caledonian">New Caledonian</option><option value="New Zealander">New Zealander</option><option value="Ni-Vanuatu">Ni-Vanuatu</option><option value="Nicaraguan">Nicaraguan</option><option value="Nigerien">Nigerien</option><option value="Nigerian">Nigerian</option><option value="Niuean">Niuean</option><option value="Norfolk Islander">Norfolk Islander</option><option value="Omani">Omani</option><option value="Pakistani">Pakistani</option><option value="Palauan">Palauan</option><option value="Palestinian">Palestinian</option><option value="Panamanian">Panamanian</option><option value="Papua New Guinean">Papua New Guinean</option><option value="Paraguayan">Paraguayan</option><option value="Peruvian">Peruvian</option><option value="Puerto Rican">Puerto Rican</option><option value="Qatari">Qatari</option><option value="Russian">Russian</option><option value="Rwandan">Rwandan</option><option value="Saint Helenian">Saint Helenian</option><option value="Salvadorian">Salvadorian</option><option value="Samoan">Samoan</option><option value="Sammarinese">Sammarinese</option><option value="Sao Tomean">Sao Tomean</option><option value="Saudi Arabian">Saudi Arabian</option><option value="Senegalese">Senegalese</option><option value="Serbian">Serbian</option><option value="Seychellian">Seychellian</option><option value="Sierra Leonean">Sierra Leonean</option><option value="Singaporean">Singaporean</option><option value="Slovakian">Slovakian</option><option value="Solomonese">Solomonese</option><option value="Somali">Somali</option><option value="South African">South African</option><option value="Sri Lankan">Sri Lankan</option><option value="Saint Lucian">Saint Lucian</option><option value="Sudanese">Sudanese</option><option value="Surinamese">Surinamese</option><option value="Swazi">Swazi</option><option value="Syrian">Syrian</option><option value="Taiwanese">Taiwanese</option><option value="Tajikistani">Tajikistani</option><option value="Tanzanian">Tanzanian</option><option value="Thai">Thai</option><option value="Togolese">Togolese</option><option value="Tokelauan">Tokelauan</option><option value="Tongan">Tongan</option><option value="Trinbagonian">Trinbagonian</option><option value="Tunisian">Tunisian</option><option value="Turkish">Turkish</option><option value="Turkmenian">Turkmenian</option><option value="Turks-Caicos Islander">Turks-Caicos Islander</option><option value="Tuvaluan">Tuvaluan</option><option value="Ugandan">Ugandan</option><option value="Ukrainian">Ukrainian</option><option value="Uruguayan">Uruguayan</option><option value="Uzbek">Uzbek</option><option value="Vaticanian">Vaticanian</option><option value="Venezuelan">Venezuelan</option><option value="Vietnamese">Vietnamese</option><option value="Vincentian">Vincentian</option><option value="Wallisian-Futunan">Wallisian-Futunan</option><option value="Yemeni">Yemeni</option><option value="Zambian">Zambian</option><option value="Zimbabwean">Zimbabwean</option></select>
+<script>dropListFromFile("dual_nationality_which", "nationalities");</script>
+</td>
+<!-- end CASP AMO 10_01_2014 WAS_CR_33 -->
+
+</tr>
+</tbody></table></center>
+
+<center>
+<hr align="CENTER"></center>
+
+<center><table border="0" width="95%">
+<tbody><tr>
+<td class="Head" colspan="4" align="LEFT">Correspondence Address</td>
+</tr>
+
+<tr>
+<td align="RIGHT" width="23%">Street:</td>
+<td align="LEFT" width="27%"><input name="street" size="28" maxlength="40" type="TEXT"></td>
+<td align="RIGHT" width="23%">Telephone Home:</td>
+<td width="27%"><input name="telephone_home" size="18" maxlength="20" type="TEXT"></td>
+</tr>
+
+<tr>
+<td align="RIGHT" width="23%">Postal Code:</td>
+<td align="LEFT" width="27%"><input name="zip_code" size="10" maxlength="10" type="TEXT"></td>
+<td align="RIGHT" width="23%">Mobile Phone:</td>
+<td align="LEFT" width="27%"><input name="cell_phone" size="18" maxlength="20" type="TEXT"></td>
+</tr>
+
+<tr>
+<td align="RIGHT" width="23%">Town:</td>
+<td align="LEFT" width="27%"><input name="town" size="28" maxlength="40" type="TEXT"></td>
+<td align="RIGHT" width="23%">E-Mail Home:</td>
+<td align="LEFT" width="27%"><input name="email" size="18" maxlength="50" type="TEXT"></td>
+</tr>
+
+<tr>
+<td align="RIGHT" width="23%">Province / State:</td>
+<td align="LEFT" width="27%"><input name="province" size="28" maxlength="40" type="TEXT"></td>
+<td &nbsp;<="" td="">
+</td><td &nbsp;<="" td="">
+</td></tr>
+
+<tr>
+<td align="RIGHT" width="23%">Country:</td>
+<td align="LEFT" width="27%">
+<!-- CASP AMO 10_01_2014 WAS_CR_33 begin -->
+<select name="country" id="country">
+<option selected="selected"></option>
+<option value="Austria">Austria</option><option value="Belgium">Belgium</option><option value="Canada">Canada</option><option value="Czech Republic">Czech Republic</option><option value="Denmark">Denmark</option><option value="Estonia">Estonia</option><option value="Finland">Finland</option><option value="France">France</option><option value="Germany">Germany</option><option value="Greece">Greece</option><option value="Great Britain">Great Britain</option><option value="Hungary">Hungary</option><option value="Ireland">Ireland</option><option value="Italy">Italy</option><option value="Latvia">Latvia</option><option value="Lithuania">Lithuania</option><option value="Luxembourg">Luxembourg</option><option value="Norway">Norway</option><option value="Poland">Poland</option><option value="Portugal">Portugal</option><option value="Romania">Romania</option><option value="Slovenia">Slovenia</option><option value="Spain">Spain</option><option value="Sweden">Sweden</option><option value="Switzerland">Switzerland</option><option value="The Netherlands">The Netherlands</option><option value="Afghanistan">Afghanistan</option><option value="Albania">Albania</option><option value="Algeria">Algeria</option><option value="Andorra">Andorra</option><option value="Angola">Angola</option><option value="Anguilla">Anguilla</option><option value="Antigua and Barbuda">Antigua and Barbuda</option><option value="Argentina">Argentina</option><option value="Armenia">Armenia</option><option value="Aruba">Aruba</option><option value="Australia">Australia</option><option value="Azerbaijan">Azerbaijan</option><option value="Bahamas">Bahamas</option><option value="Bahrain">Bahrain</option><option value="Bangladesh">Bangladesh</option><option value="Barbados">Barbados</option><option value="Belarus">Belarus</option><option value="Belize">Belize</option><option value="Benin">Benin</option><option value="Bermuda">Bermuda</option><option value="Bhutan">Bhutan</option><option value="Bolivia">Bolivia</option><option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option><option value="Botswana">Botswana</option><option value="Brazil">Brazil</option><option value="Brunei">Brunei</option><option value="Bulgaria">Bulgaria</option><option value="Burkina Faso">Burkina Faso</option><option value="Burma">Burma</option><option value="Burundi">Burundi</option><option value="Cambodia">Cambodia</option><option value="Cameroon">Cameroon</option><option value="Cape Verde">Cape Verde</option><option value="Central African Republic">Central African Republic</option><option value="Chad">Chad</option><option value="Chile">Chile</option><option value="China">China</option><option value="Christmas Island">Christmas Island</option><option value="Colombia">Colombia</option><option value="Comoros">Comoros</option><option value="Cook Islands">Cook Islands</option><option value="Costa Rica">Costa Rica</option><option value="Ivory Coast">Ivory Coast</option><option value="Croatia">Croatia</option><option value="Cuba">Cuba</option><option value="Cyprus">Cyprus</option><option value="Democratic Republic of the Congo">Democratic Republic of the Congo</option><option value="Djibouti">Djibouti</option><option value="Dominican Republic">Dominican Republic</option><option value="East Timor">East Timor</option><option value="Ecuador">Ecuador</option><option value="Egypt">Egypt</option><option value="El Salvador">El Salvador</option><option value="Equatorial Guinea">Equatorial Guinea</option><option value="Eritrea">Eritrea</option><option value="Ethiopia">Ethiopia</option><option value="Falkland Islands">Falkland Islands</option><option value="Fiji">Fiji</option><option value="French Guiana">French Guiana</option><option value="Gabon">Gabon</option><option value="Gambia">Gambia</option><option value="Georgia">Georgia</option><option value="Ghana">Ghana</option><option value="Gibraltar">Gibraltar</option><option value="Grenada">Grenada</option><option value="Guatemala">Guatemala</option><option value="Guinea">Guinea</option><option value="Guyana">Guyana</option><option value="Haiti">Haiti</option><option value="Honduras">Honduras</option><option value="Hong Kong">Hong Kong</option><option value="Iceland">Iceland</option><option value="India">India</option><option value="Indonesia">Indonesia</option><option value="Iran">Iran</option><option value="Iraq">Iraq</option><option value="Israel">Israel</option><option value="Jamaica">Jamaica</option><option value="Japan">Japan</option><option value="Jordan">Jordan</option><option value="Kazakhstan">Kazakhstan</option><option value="Kenya">Kenya</option><option value="Kiribati">Kiribati</option><option value="Kuwait">Kuwait</option><option value="Kyrgyzstan">Kyrgyzstan</option><option value="Laos">Laos</option><option value="Lebanon">Lebanon</option><option value="Lesotho">Lesotho</option><option value="Liberia">Liberia</option><option value="Libya">Libya</option><option value="Liechtenstein">Liechtenstein</option><option value="Macau">Macau</option><option value="Macedonia">Macedonia</option><option value="Madagascar">Madagascar</option><option value="Malawi">Malawi</option><option value="Malaysia">Malaysia</option><option value="Maldives">Maldives</option><option value="Mali">Mali</option><option value="Malta">Malta</option><option value="Marshall Islands">Marshall Islands</option><option value="Mauritania">Mauritania</option><option value="Mauritius">Mauritius</option><option value="Mexico">Mexico</option><option value="Micronesia">Micronesia</option><option value="Moldova">Moldova</option><option value="Monaco">Monaco</option><option value="Mongolia">Mongolia</option><option value="Montenegro">Montenegro</option><option value="Montserrat">Montserrat</option><option value="Morocco">Morocco</option><option value="Mozambique">Mozambique</option><option value="Namibia">Namibia</option><option value="Nauru">Nauru</option><option value="Nepal">Nepal</option><option value="New Caledonia">New Caledonia</option><option value="New Zealand">New Zealand</option><option value="Nicaragua">Nicaragua</option><option value="Niger">Niger</option><option value="Nigeria">Nigeria</option><option value="Niue">Niue</option><option value="Norfolk Islands">Norfolk Islands</option><option value="Oman">Oman</option><option value="Pakistan">Pakistan</option><option value="Palau">Palau</option><option value="Palestine">Palestine</option><option value="Panama">Panama</option><option value="Papua New Guinea">Papua New Guinea</option><option value="Paraguay">Paraguay</option><option value="Peru">Peru</option><option value="Philippines">Philippines</option><option value="Puerto Rico">Puerto Rico</option><option value="Qatar">Qatar</option><option value="Russian Federation">Russian Federation</option><option value="Rwanda">Rwanda</option><option value="Saint Helena">Saint Helena</option><option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option><option value="Saint Lucia">Saint Lucia</option><option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option><option value="Samoa">Samoa</option><option value="San Marino">San Marino</option><option value="Sao Tome and Principe">Sao Tome and Principe</option><option value="Saudi Arabia">Saudi Arabia</option><option value="Senegal">Senegal</option><option value="Serbia">Serbia</option><option value="Seychelles">Seychelles</option><option value="Sierra Leone">Sierra Leone</option><option value="Singapore">Singapore</option><option value="Slovakia">Slovakia</option><option value="Solomon Islands">Solomon Islands</option><option value="Somalia">Somalia</option><option value="South Africa">South Africa</option><option value="South Korea">South Korea</option><option value="Sri Lanka">Sri Lanka</option><option value="Sudan">Sudan</option><option value="Suriname">Suriname</option><option value="Swaziland">Swaziland</option><option value="Syria">Syria</option><option value="Taiwan">Taiwan</option><option value="Tajikistan">Tajikistan</option><option value="Tanzania">Tanzania</option><option value="Thailand">Thailand</option><option value="Togo">Togo</option><option value="Tokelau">Tokelau</option><option value="Tonga">Tonga</option><option value="Trinidad and Tobago">Trinidad and Tobago</option><option value="Tunisia">Tunisia</option><option value="Turkey">Turkey</option><option value="Turkmenistan">Turkmenistan</option><option value="Turks and Caicos Islands">Turks and Caicos Islands</option><option value="Tuvalu">Tuvalu</option><option value="Uganda">Uganda</option><option value="Ukraine">Ukraine</option><option value="Uruguay">Uruguay</option><option value="United Arab Emirates">United Arab Emirates</option><option value="USA">USA</option><option value="Uzbekistan">Uzbekistan</option><option value="Vanuatu">Vanuatu</option><option value="Vatican City">Vatican City</option><option value="Venezuela">Venezuela</option><option value="Vietnam">Vietnam</option><option value="Wallis and Futuna">Wallis and Futuna</option><option value="Yemen">Yemen</option><option value="Zambia">Zambia</option><option value="Zimbabwe">Zimbabwe</option></select>
+<script>dropListFromFile("country", "countries");</script>
+</td>
+<!-- end CASP AMO 10_01_2014 WAS_CR_33 -->
+<!-- CASP AMO 10_01_2014 WAS_CR_33 begin -->
+<!--
+<select NAME="country">
+<option SELECTED></option>
+-->
+<!-- end CASP AMO 10_01_2014 WAS_CR_33 -->
+<!-- CASP AMO 22_06_2012 WAS_CR_24 begin 
+<option>Afghanistan</option>
+<option>Albania</option><option>Algeria</option><option>Andorra</option>
+<option>Angola</option><option>Argentina</option><option>Australia</option>
+<option>Austria</option>
+<option>Bahamas</option>
+<option>Bahrein</option><option>Bangladesh</option><option>Barbados</option>
+<option>Belgium</option>
+<option>Belize</option>
+<option>Benin</option><option>Bermuda</option><option>Bolivia</option><option>Bosnia-Herzegovina</option>
+<option>Botswana</option>
+<option>Brasil</option><option>Brunei</option><option>Bulgaria</option>
+<option>Burkina Faso</option><option>Burma</option><option>Burundi</option>
+<option>Cameroun</option>
+<option>Canada</option>
+<option>Central African Republic</option>
+<option>Chad</option><option>Chile</option>
+<option>China</option>
+<option>CIS</option><option>Colombia</option>
+<option>Comores Islands</option><option>Congo</option><option>Costa Rica</option><option>Croatia</option>
+<option>Cuba</option><option>Cyprus</option>
+<option>Czech Republic</option>
+<option>Denmark</option>
+<option>Djibouti</option><option>Dominican Republic</option><option>Egypt</option>
+<option>Ethiopia</option><option>Falkland Islands</option><option>Fiji Islands</option>
+<option>Finland</option>
+<option>France</option>
+<option>Gabon</option><option>Gambia</option>
+<option>Germany</option>
+<option>Ghana</option>
+<option>Gibraltar</option>
+<option>Greece</option>
+<option>Grenada</option><option>Guatemala</option><option>Guinea</option>
+<option>Guyana
+<option>Haiti</option><option>Honduras</option><option>Hong Kong</option>
+<option>Hungary</option>
+<option>Iceland</option><option>India</option><option>Indonesia</option><option>Iraq</option>
+<option>Iran</option>
+<option>Ireland</option>
+<option>Israel</option>
+<option>Italy</option>
+<option>Ivory Coast</option><option>Jamaica</option>
+<option>Japan</option><option>Jordan</option><option>Kampuchea</option><option>Kenya</option>
+<option>Korea</option><option>Kuwait</option><option>Laos</option><option>Lebanon</option>
+<option>Lesotho</option><option>Liberia</option><option>Libya</option><option>Liechtenstein</option>
+<option>Luxemburg</option>
+<option>Macao</option><option>Macedonia</option><option>Malagasy Republic</option>
+<option>Malasia</option><option>Malawi</option><option>Maldives</option><option>Mali</option>
+<option>Malta</option><option>Mauritania</option><option>Mauritius</option><option>Mexico</option>
+<option>Monaco</option><option>Morocco</option><option>Mozambique</option><option>Nauru</option>
+<option>Nepal</option><option>New Caledonia</option><option>New Zealand</option>
+<option>Nicaragua</option><option>Niger</option><option>Nigeria</option>
+<option>Norway</option>
+<option>Pakistan</option><option>Panama</option><option>Papua New Guinea</option>
+<option>Paraguay</option><option>Peru</option><option>Philippines</option><option>Poland</option>
+<option>Portugal</option>
+<option>Puerto Rico</option>
+<option>Qatar</option>
+<option>Romania</option>
+<option>Russia</option>
+<option>Rwanda</option>
+<option>San Marino</option><option>Saudi Arabia</option>
+<option>Senegal</option><option>Seychelles</option><option>Serbia &amp; Montenegro</option><option>Sierra Leone</option>
+<option>Sikkim</option><option>Singapore</option><option>Slovakia</option><option>Slovenia</option><option>Somalia</option>
+<option>South Africa</option>
+<option>Spain</option>
+<option>Sri-Lanka</option><option>St. Lucia</option>
+<option>St. Vincent</option><option>Sudan</option><option>Surinam</option><option>Swaziland</option>
+<option>Sweden</option>
+<option>Switzerland</option><option>Syria</option><option>Taiwan</option><option>Tanzania</option>
+<option>Thailand</option>
+<option>The Netherlands</option>
+<option>Togo</option><option>Tonga</option>
+<option>Trinidad &amp; Tobago</option><option>Tunisia</option><option>Turkey</option>
+<option>Uganda</option><option>United Arab Emirates</option>
+<option>United Kingdom</option>
+<option>United States of America</option><option>Uraguay</option><option>Venezuela</option>
+<option>Vietnam</option><option>Western Samoa</option>
+<option>Yemen People's Democratic Rep.</option>
+<option>Zaire</option><option>Zambia</option><option>Zimbabwe</option>
+-->
+<!-- CASP AMO 10_01_2014 WAS_CR_33 begin -->
+<!--
+<option>Afghanistan</option><option>Albania</option><option>Algeria</option><option>Amer.Virgin Is.</option>
+<option>Andorran</option><option>Angola</option><option>Anguilla</option><option>Antarctica</option><option>Antigua/Barbuda</option>
+<option>Argentina</option><option>Armenia</option><option>Aruba</option><option>Australia</option>
+<option>Austria</option><option>Azerbaijan</option><option>Bahamas</option><option>Bahrain</option>
+<option>Bangladesh</option><option>Barbados</option><option>Belarus</option><option>Belgium</option>
+<option>Belize</option><option>Benin</option><option>Bermuda</option><option>Bhutan</option>
+<option>Bolivia</option><option>Bosnia-Herz.</option><option>Botswana</option><option>Bouvet Islands</option>
+<option>Brazil</option><option>Brit.Ind.Oc.Ter</option><option>Brit.Virgin Is.</option><option>Brunei Daruss.</option>
+<option>Bulgaria</option><option>Burkina Faso</option><option>Burma</option><option>Burundi</option>
+<option>Cambodia</option><option>Cameroon</option><option>Canada</option><option>Cape Verde</option>
+<option>CAR</option><option>Cayman Islands</option><option>Chad</option><option>Chile</option>
+<option>China</option><option>Christmas Islnd</option><option>Coconut Islands</option><option>Colombia</option>
+<option>Comoros</option><option>Cook Islands</option><option>Costa Rica</option><option>Cote d'Ivoire</option>
+<option>Croatia</option><option>Cuba</option><option>Cyprus</option><option>Czech Republic</option>
+<option>Dem. Rep. Congo</option><option>Denmark</option><option>Djibouti</option><option>Dominica</option>
+<option>Dominican Rep.</option><option>Dutch Antilles</option><option>East Timor</option><option>Ecuador</option>
+<option>Egypt</option><option>El Salvador</option><option>Equatorial Guin</option><option>Eritrea</option>
+<option>Estonia</option><option>Ethiopia</option><option>Falkland Islnds</option><option>Faroe Islands</option>
+<option>Fiji</option><option>Finland</option><option>France</option><option>Frenc.Polynesia</option>
+<option>French Guayana</option><option>French S.Territ</option><option>Gabon</option><option>Gambia</option>
+<option>Georgia</option><option>Germany</option><option>Ghana</option><option>Gibraltar</option>
+<option>Greece</option><option>Greenland</option><option>Grenada</option><option>Guadeloupe</option>
+<option>Guam</option><option>Guatemala</option><option>Guinea</option><option>Guinea-Bissau</option>
+<option>Guyana</option><option>Haiti</option><option>Heard/McDon.Isl</option><option>Honduras</option>
+<option>Hong Kong</option><option>Hungary</option><option>Iceland</option><option>India</option>
+<option>Indonesia</option><option>Iran</option><option>Iraq</option><option>Ireland</option>
+<option>Israel</option><option>Italy</option><option>Jamaica</option><option>Japan</option>
+<option>Jordan</option><option>Kazakhstan</option><option>Kenya</option><option>Kiribati</option>
+<option>Kuwait</option><option>Kyrgyzstan</option><option>Laos</option><option>Latvia</option>
+<option>Lebanon</option><option>Lesotho</option><option>Liberia</option><option>Libya</option>
+<option>Liechtenstein</option><option>Lithuania</option><option>Luxembourg</option><option>Macau</option>
+<option>Macedonia</option><option>Madagascar</option><option>Malawi</option><option>Malaysia</option>
+<option>Maldives</option><option>Mali</option><option>Malta</option><option>Marshall Islnds</option>
+<option>Martinique</option><option>Mauretania</option><option>Mauritius</option><option>Mayotte</option>
+<option>Mexico</option><option>Micronesia</option><option>Minor Outl.Isl.</option><option>Moldova</option>
+<option>Monaco</option><option>Mongolia</option><option>Montserrat</option><option>Morocco</option>
+<option>Mozambique</option><option>N.Mariana Islnd</option><option>Namibia</option><option>Nauru</option>
+<option>Nepal</option><option>Netherlands</option><option>New Caledonia</option><option>New Zealand</option>
+<option>Nicaragua</option><option>Niger</option><option>Nigeria</option><option>Niue</option>
+<option>Norfolk Islands</option><option>North Korea</option><option>Norway</option><option>Oman</option>
+<option>Pakistan</option><option>Palau</option><option>Palestine</option><option>Panama</option>
+<option>Pap. New Guinea</option><option>Paraguay</option><option>Peru</option><option>Philippines</option>
+<option>Pitcairn Islnds</option><option>Poland</option><option>Portugal</option><option>Puerto Rico</option>
+<option>Qatar</option><option>Rep.of Congo</option><option>Reunion</option><option>Romania</option>
+<option>Russian Fed.</option><option>Rwanda</option><option>S. Sandwich Ins</option><option>S.Tome,Principe</option>
+<option>Saint Helena</option><option>Samoa</option><option>Samoa, America</option><option>San Marino</option>
+<option>Saudi Arabia</option><option>Senegal</option><option>Serbia/Monten.</option><option>Seychelles</option>
+<option>Sierra Leone</option><option>Singapore</option><option>Slovakia</option><option>Slovenia</option>
+<option>Solomon Islands</option><option>Somalia</option><option>South Africa</option><option>South Korea</option>
+<option>Spain</option><option>Sri Lanka</option><option>St Kitts&Nevis</option><option>St. Lucia</option>
+<option>St. Vincent</option><option>St.Pier,Miquel.</option><option>Sudan</option><option>Suriname</option>
+<option>Svalbard</option><option>Swaziland</option><option>Sweden</option><option>Switzerland</option>
+<option>Syria</option><option>Taiwan</option><option>Tajikistan</option><option>Tanzania</option>
+<option>Thailand</option><option>Togo</option><option>Tokelau Islands</option><option>Tonga</option>
+<option>Trinidad,Tobago</option><option>Tunisia</option><option>Turkey</option><option>Turkmenistan</option>
+<option>Turksh Caicosin</option><option>Tuvalu</option><option>Uganda</option><option>Ukraine</option>
+<option>United Kingdom</option><option>Uruguay</option><option>USA</option><option>Utd.Arab Emir.</option>
+<option>Uzbekistan</option><option>Vanuatu</option><option>Vatican City</option><option>Venezuela</option>
+<option>Vietnam</option><option>Wallis,Futuna</option><option>West Sahara</option><option>Yemen</option>
+<option>Zambia</option><option>Zimbabwe</option>
+-->
+<!-- end CASP AMO 10_01_2014 WAS_CR_33 -->
+<!-- end CASP AMO 22_06_2012 WAS_CR_24 -->
+<!-- CASP AMO 10_01_2014 WAS_CR_33 begin -->
+<!--
+</select></td>-->
+<!-- end CASP AMO 10_01_2014 WAS_CR_33 -->
+<td &nbsp;<="" td="">
+</td><td &nbsp;<="" td="">
+</td></tr>
+
+<tr>
+<td class="Head" colspan="4" align="LEFT">Home Address<font size="-1"> (if different from above)</font></td>
+</tr>
+
+<tr>
+<td align="RIGHT" width="23%">Street:</td>
+<td align="LEFT" width="27%"><input name="home_street" size="28" maxlength="40" type="TEXT"></td>
+<td &nbsp;<="" td="">
+</td><td &nbsp;<="" td="">
+</td></tr>
+
+<tr>
+<td align="RIGHT" width="23%">Postal Code:</td>
+<td align="LEFT" width="27%"><input name="home_zip_code" size="10" maxlength="10" type="TEXT"></td>
+<td class="Light" colspan="2" align="CENTER"><i>Can we call you at your office?</i></td>
+</tr>
+
+<tr>
+<td align="RIGHT" width="23%">Town:</td>
+<td align="LEFT" width="27%"><input name="home_town" size="28" maxlength="40" type="TEXT"></td>
+<td align="CENTER" width="15%">&nbsp;</td>
+<td class="Light" align="LEFT" width="35%">YES&nbsp;<input name="fl_call_office" value="yes" type="RADIO">NO&nbsp;<input name="fl_call_office" value="no" checked="checked" type="RADIO"></td>
+</tr>
+
+<tr>
+<td align="RIGHT" width="23%">Province / State:</td>
+<td align="LEFT" width="27%"><input name="home_province" size="28" maxlength="40" type="TEXT"></td>
+<td align="RIGHT" width="23%">Telephone
+Business:</td>
+<td align="LEFT" width="27%"><input name="telephone_business" size="18" maxlength="20" type="TEXT"></td>
+</tr>
+<tr>
+<td align="RIGHT" width="23%">Country:</td>
+<td align="LEFT" width="27%">
+<!-- CASP AMO 10_01_2014 WAS_CR_33 begin -->
+<select name="home_country" id="home_country">
+<option selected="selected"></option>
+<option value="Austria">Austria</option><option value="Belgium">Belgium</option><option value="Canada">Canada</option><option value="Czech Republic">Czech Republic</option><option value="Denmark">Denmark</option><option value="Estonia">Estonia</option><option value="Finland">Finland</option><option value="France">France</option><option value="Germany">Germany</option><option value="Greece">Greece</option><option value="Great Britain">Great Britain</option><option value="Hungary">Hungary</option><option value="Ireland">Ireland</option><option value="Italy">Italy</option><option value="Latvia">Latvia</option><option value="Lithuania">Lithuania</option><option value="Luxembourg">Luxembourg</option><option value="Norway">Norway</option><option value="Poland">Poland</option><option value="Portugal">Portugal</option><option value="Romania">Romania</option><option value="Slovenia">Slovenia</option><option value="Spain">Spain</option><option value="Sweden">Sweden</option><option value="Switzerland">Switzerland</option><option value="The Netherlands">The Netherlands</option><option value="Afghanistan">Afghanistan</option><option value="Albania">Albania</option><option value="Algeria">Algeria</option><option value="Andorra">Andorra</option><option value="Angola">Angola</option><option value="Anguilla">Anguilla</option><option value="Antigua and Barbuda">Antigua and Barbuda</option><option value="Argentina">Argentina</option><option value="Armenia">Armenia</option><option value="Aruba">Aruba</option><option value="Australia">Australia</option><option value="Azerbaijan">Azerbaijan</option><option value="Bahamas">Bahamas</option><option value="Bahrain">Bahrain</option><option value="Bangladesh">Bangladesh</option><option value="Barbados">Barbados</option><option value="Belarus">Belarus</option><option value="Belize">Belize</option><option value="Benin">Benin</option><option value="Bermuda">Bermuda</option><option value="Bhutan">Bhutan</option><option value="Bolivia">Bolivia</option><option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option><option value="Botswana">Botswana</option><option value="Brazil">Brazil</option><option value="Brunei">Brunei</option><option value="Bulgaria">Bulgaria</option><option value="Burkina Faso">Burkina Faso</option><option value="Burma">Burma</option><option value="Burundi">Burundi</option><option value="Cambodia">Cambodia</option><option value="Cameroon">Cameroon</option><option value="Cape Verde">Cape Verde</option><option value="Central African Republic">Central African Republic</option><option value="Chad">Chad</option><option value="Chile">Chile</option><option value="China">China</option><option value="Christmas Island">Christmas Island</option><option value="Colombia">Colombia</option><option value="Comoros">Comoros</option><option value="Cook Islands">Cook Islands</option><option value="Costa Rica">Costa Rica</option><option value="Ivory Coast">Ivory Coast</option><option value="Croatia">Croatia</option><option value="Cuba">Cuba</option><option value="Cyprus">Cyprus</option><option value="Democratic Republic of the Congo">Democratic Republic of the Congo</option><option value="Djibouti">Djibouti</option><option value="Dominican Republic">Dominican Republic</option><option value="East Timor">East Timor</option><option value="Ecuador">Ecuador</option><option value="Egypt">Egypt</option><option value="El Salvador">El Salvador</option><option value="Equatorial Guinea">Equatorial Guinea</option><option value="Eritrea">Eritrea</option><option value="Ethiopia">Ethiopia</option><option value="Falkland Islands">Falkland Islands</option><option value="Fiji">Fiji</option><option value="French Guiana">French Guiana</option><option value="Gabon">Gabon</option><option value="Gambia">Gambia</option><option value="Georgia">Georgia</option><option value="Ghana">Ghana</option><option value="Gibraltar">Gibraltar</option><option value="Grenada">Grenada</option><option value="Guatemala">Guatemala</option><option value="Guinea">Guinea</option><option value="Guyana">Guyana</option><option value="Haiti">Haiti</option><option value="Honduras">Honduras</option><option value="Hong Kong">Hong Kong</option><option value="Iceland">Iceland</option><option value="India">India</option><option value="Indonesia">Indonesia</option><option value="Iran">Iran</option><option value="Iraq">Iraq</option><option value="Israel">Israel</option><option value="Jamaica">Jamaica</option><option value="Japan">Japan</option><option value="Jordan">Jordan</option><option value="Kazakhstan">Kazakhstan</option><option value="Kenya">Kenya</option><option value="Kiribati">Kiribati</option><option value="Kuwait">Kuwait</option><option value="Kyrgyzstan">Kyrgyzstan</option><option value="Laos">Laos</option><option value="Lebanon">Lebanon</option><option value="Lesotho">Lesotho</option><option value="Liberia">Liberia</option><option value="Libya">Libya</option><option value="Liechtenstein">Liechtenstein</option><option value="Macau">Macau</option><option value="Macedonia">Macedonia</option><option value="Madagascar">Madagascar</option><option value="Malawi">Malawi</option><option value="Malaysia">Malaysia</option><option value="Maldives">Maldives</option><option value="Mali">Mali</option><option value="Malta">Malta</option><option value="Marshall Islands">Marshall Islands</option><option value="Mauritania">Mauritania</option><option value="Mauritius">Mauritius</option><option value="Mexico">Mexico</option><option value="Micronesia">Micronesia</option><option value="Moldova">Moldova</option><option value="Monaco">Monaco</option><option value="Mongolia">Mongolia</option><option value="Montenegro">Montenegro</option><option value="Montserrat">Montserrat</option><option value="Morocco">Morocco</option><option value="Mozambique">Mozambique</option><option value="Namibia">Namibia</option><option value="Nauru">Nauru</option><option value="Nepal">Nepal</option><option value="New Caledonia">New Caledonia</option><option value="New Zealand">New Zealand</option><option value="Nicaragua">Nicaragua</option><option value="Niger">Niger</option><option value="Nigeria">Nigeria</option><option value="Niue">Niue</option><option value="Norfolk Islands">Norfolk Islands</option><option value="Oman">Oman</option><option value="Pakistan">Pakistan</option><option value="Palau">Palau</option><option value="Palestine">Palestine</option><option value="Panama">Panama</option><option value="Papua New Guinea">Papua New Guinea</option><option value="Paraguay">Paraguay</option><option value="Peru">Peru</option><option value="Philippines">Philippines</option><option value="Puerto Rico">Puerto Rico</option><option value="Qatar">Qatar</option><option value="Russian Federation">Russian Federation</option><option value="Rwanda">Rwanda</option><option value="Saint Helena">Saint Helena</option><option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option><option value="Saint Lucia">Saint Lucia</option><option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option><option value="Samoa">Samoa</option><option value="San Marino">San Marino</option><option value="Sao Tome and Principe">Sao Tome and Principe</option><option value="Saudi Arabia">Saudi Arabia</option><option value="Senegal">Senegal</option><option value="Serbia">Serbia</option><option value="Seychelles">Seychelles</option><option value="Sierra Leone">Sierra Leone</option><option value="Singapore">Singapore</option><option value="Slovakia">Slovakia</option><option value="Solomon Islands">Solomon Islands</option><option value="Somalia">Somalia</option><option value="South Africa">South Africa</option><option value="South Korea">South Korea</option><option value="Sri Lanka">Sri Lanka</option><option value="Sudan">Sudan</option><option value="Suriname">Suriname</option><option value="Swaziland">Swaziland</option><option value="Syria">Syria</option><option value="Taiwan">Taiwan</option><option value="Tajikistan">Tajikistan</option><option value="Tanzania">Tanzania</option><option value="Thailand">Thailand</option><option value="Togo">Togo</option><option value="Tokelau">Tokelau</option><option value="Tonga">Tonga</option><option value="Trinidad and Tobago">Trinidad and Tobago</option><option value="Tunisia">Tunisia</option><option value="Turkey">Turkey</option><option value="Turkmenistan">Turkmenistan</option><option value="Turks and Caicos Islands">Turks and Caicos Islands</option><option value="Tuvalu">Tuvalu</option><option value="Uganda">Uganda</option><option value="Ukraine">Ukraine</option><option value="Uruguay">Uruguay</option><option value="United Arab Emirates">United Arab Emirates</option><option value="USA">USA</option><option value="Uzbekistan">Uzbekistan</option><option value="Vanuatu">Vanuatu</option><option value="Vatican City">Vatican City</option><option value="Venezuela">Venezuela</option><option value="Vietnam">Vietnam</option><option value="Wallis and Futuna">Wallis and Futuna</option><option value="Yemen">Yemen</option><option value="Zambia">Zambia</option><option value="Zimbabwe">Zimbabwe</option></select>
+<script>dropListFromFile("home_country", "countries");</script>
+</td>
+<!-- end CASP AMO 10_01_2014 WAS_CR_33 -->
+<!-- CASP AMO 10_01_2014 WAS_CR_33 begin -->
+<!--
+<select NAME="home_country">
+<option SELECTED></option>
+-->
+<!-- end CASP AMO 10_01_2014 WAS_CR_33 -->
+<!-- CASP AMO 22_06_2012 WAS_CR_24 begin 
+<option>Afghanistan</option><option>Albania</option><option>Algeria</option><option>Andorra</option>
+<option>Angola</option><option>Argentina</option><option>Australia</option>
+<option>Austria</option>
+<option>Bahamas</option>
+<option>Bahrein</option><option>Bangladesh</option><option>Barbados</option><option>Belize</option>
+<option>Belgium</option>
+<option>Benin</option><option>Bermuda</option><option>Bolivia</option><option>Bosnia-Herzegovina</option>
+<option>Botswana</option>
+<option>Brasil</option><option>Brunei</option><option>Bulgaria</option>
+<option>Burkina Faso</option><option>Burma</option><option>Burundi</option><option>Cameroun</option>
+<option>Canada</option>
+<option>Central African Republic</option><option>Chad</option><option>Chile</option>
+<option>China</option><option>CIS</option><option>Colombia</option>
+<option>Comores Islands</option><option>Congo</option><option>Costa Rica</option><option>Croatia</option>
+<option>Cuba</option>
+<option>Czech Republic</option>
+<option>Cyprus</option>
+<option>Denmark</option>
+<option>Djibouti</option><option>Dominican Republic</option>
+<option>Egypt</option>
+<option>Ethiopia</option>
+<option>Falkland Islands</option><option>Fiji Islands</option>
+<option>Finland</option>
+<option>France</option>
+<option>Gabon</option><option>Gambia</option><option>Ghana</option><option>Gibraltar</option>
+<option>Germany</option>
+<option>Greece</option>
+<option>Grenada</option><option>Guatemala</option><option>Guinea</option>
+<option>Guyana</option><option>Haiti</option><option>Honduras</option><option>Hong Kong</option>
+<option>Hungary</option>
+<option>Iceland</option><option>India</option><option>Indonesia</option><option>Iraq</option>
+<option>Iran</option>
+<option>Ireland</option>
+<option>Israel</option>
+<option>Italy</option>
+<option>Ivory Coast</option><option>Jamaica</option>
+<option>Japan</option><option>Jordan</option><option>Kampuchea</option><option>Kenya</option>
+<option>Korea</option><option>Kuwait</option><option>Laos</option><option>Lebanon</option>
+<option>Lesotho</option><option>Liberia</option><option>Libya</option><option>Liechtenstein</option>
+<option>Luxemburg</option>
+<option>Macao</option><option>Macedonia</option><option>Malagasy Republic</option>
+<option>Malasia</option><option>Malawi</option><option>Maldives</option><option>Mali</option>
+<option>Malta</option><option>Mauritania</option><option>Mauritius</option><option>Mexico</option>
+<option>Monaco</option><option>Morocco</option><option>Mozambique</option><option>Nauru</option>
+<option>Nepal</option><option>New Caledonia</option><option>New Zealand</option>
+<option>Nicaragua</option><option>Niger</option><option>Nigeria</option>
+<option>Norway</option>
+<option>Pakistan</option><option>Panama</option><option>Papua New Guinea</option>
+<option>Paraguay</option><option>Peru</option><option>Philippines</option><option>Poland</option>
+<option>Portugal</option>
+<option>Puerto Rico</option><option>Qatar</option>
+<option>Romania</option>
+<option>Russia</option>
+<option>Rwanda</option><option>San Marino</option><option>Saudi Arabia</option>
+<option>Senegal</option><option>Seychelles</option><option>Serbia &amp; Montenegro</option><option>Sierra Leone</option>
+<option>Sikkim</option><option>Singapore</option><option>Slovakia</option><option>Slovenia</option><option>Somalia</option>
+<option>South Africa</option>
+<option>Spain</option>
+<option>Sri-Lanka</option><option>St. Lucia</option>
+<option>St. Vincent</option><option>Sudan</option><option>Surinam</option><option>Swaziland</option>
+<option>Sweden</option>
+<option>Switzerland</option><option>Syria</option><option>Taiwan</option><option>Tanzania</option>
+<option>Thailand</option>
+<option>The Netherlands</option>
+<option>Togo</option><option>Tonga</option>
+<option>Trinidad &amp; Tobago</option><option>Tunisia</option><option>Turkey</option>
+<option>Uganda</option><option>United Arab Emirates</option>
+<option>United Kingdom</option>
+<option>United States of America</option><option>Uraguay</option><option>Venezuela</option>
+<option>Vietnam</option><option>Western Samoa</option>
+<option>Yemen People's Democratic Rep.</option>
+<option>Zaire</option><option>Zambia</option><option>Zimbabwe</option>
+-->
+<!-- CASP AMO 10_01_2014 WAS_CR_33 begin -->
+<!--
+<option>Afghanistan</option><option>Albania</option><option>Algeria</option><option>Amer.Virgin Is.</option>
+<option>Andorran</option><option>Angola</option><option>Anguilla</option><option>Antarctica</option><option>Antigua/Barbuda</option>
+<option>Argentina</option><option>Armenia</option><option>Aruba</option><option>Australia</option>
+<option>Austria</option><option>Azerbaijan</option><option>Bahamas</option><option>Bahrain</option>
+<option>Bangladesh</option><option>Barbados</option><option>Belarus</option><option>Belgium</option>
+<option>Belize</option><option>Benin</option><option>Bermuda</option><option>Bhutan</option>
+<option>Bolivia</option><option>Bosnia-Herz.</option><option>Botswana</option><option>Bouvet Islands</option>
+<option>Brazil</option><option>Brit.Ind.Oc.Ter</option><option>Brit.Virgin Is.</option><option>Brunei Daruss.</option>
+<option>Bulgaria</option><option>Burkina Faso</option><option>Burma</option><option>Burundi</option>
+<option>Cambodia</option><option>Cameroon</option><option>Canada</option><option>Cape Verde</option>
+<option>CAR</option><option>Cayman Islands</option><option>Chad</option><option>Chile</option>
+<option>China</option><option>Christmas Islnd</option><option>Coconut Islands</option><option>Colombia</option>
+<option>Comoros</option><option>Cook Islands</option><option>Costa Rica</option><option>Cote d'Ivoire</option>
+<option>Croatia</option><option>Cuba</option><option>Cyprus</option><option>Czech Republic</option>
+<option>Dem. Rep. Congo</option><option>Denmark</option><option>Djibouti</option><option>Dominica</option>
+<option>Dominican Rep.</option><option>Dutch Antilles</option><option>East Timor</option><option>Ecuador</option>
+<option>Egypt</option><option>El Salvador</option><option>Equatorial Guin</option><option>Eritrea</option>
+<option>Estonia</option><option>Ethiopia</option><option>Falkland Islnds</option><option>Faroe Islands</option>
+<option>Fiji</option><option>Finland</option><option>France</option><option>Frenc.Polynesia</option>
+<option>French Guayana</option><option>French S.Territ</option><option>Gabon</option><option>Gambia</option>
+<option>Georgia</option><option>Germany</option><option>Ghana</option><option>Gibraltar</option>
+<option>Greece</option><option>Greenland</option><option>Grenada</option><option>Guadeloupe</option>
+<option>Guam</option><option>Guatemala</option><option>Guinea</option><option>Guinea-Bissau</option>
+<option>Guyana</option><option>Haiti</option><option>Heard/McDon.Isl</option><option>Honduras</option>
+<option>Hong Kong</option><option>Hungary</option><option>Iceland</option><option>India</option>
+<option>Indonesia</option><option>Iran</option><option>Iraq</option><option>Ireland</option>
+<option>Israel</option><option>Italy</option><option>Jamaica</option><option>Japan</option>
+<option>Jordan</option><option>Kazakhstan</option><option>Kenya</option><option>Kiribati</option>
+<option>Kuwait</option><option>Kyrgyzstan</option><option>Laos</option><option>Latvia</option>
+<option>Lebanon</option><option>Lesotho</option><option>Liberia</option><option>Libya</option>
+<option>Liechtenstein</option><option>Lithuania</option><option>Luxembourg</option><option>Macau</option>
+<option>Macedonia</option><option>Madagascar</option><option>Malawi</option><option>Malaysia</option>
+<option>Maldives</option><option>Mali</option><option>Malta</option><option>Marshall Islnds</option>
+<option>Martinique</option><option>Mauretania</option><option>Mauritius</option><option>Mayotte</option>
+<option>Mexico</option><option>Micronesia</option><option>Minor Outl.Isl.</option><option>Moldova</option>
+<option>Monaco</option><option>Mongolia</option><option>Montserrat</option><option>Morocco</option>
+<option>Mozambique</option><option>N.Mariana Islnd</option><option>Namibia</option><option>Nauru</option>
+<option>Nepal</option><option>Netherlands</option><option>New Caledonia</option><option>New Zealand</option>
+<option>Nicaragua</option><option>Niger</option><option>Nigeria</option><option>Niue</option>
+<option>Norfolk Islands</option><option>North Korea</option><option>Norway</option><option>Oman</option>
+<option>Pakistan</option><option>Palau</option><option>Palestine</option><option>Panama</option>
+<option>Pap. New Guinea</option><option>Paraguay</option><option>Peru</option><option>Philippines</option>
+<option>Pitcairn Islnds</option><option>Poland</option><option>Portugal</option><option>Puerto Rico</option>
+<option>Qatar</option><option>Rep.of Congo</option><option>Reunion</option><option>Romania</option>
+<option>Russian Fed.</option><option>Rwanda</option><option>S. Sandwich Ins</option><option>S.Tome,Principe</option>
+<option>Saint Helena</option><option>Samoa</option><option>Samoa, America</option><option>San Marino</option>
+<option>Saudi Arabia</option><option>Senegal</option><option>Serbia/Monten.</option><option>Seychelles</option>
+<option>Sierra Leone</option><option>Singapore</option><option>Slovakia</option><option>Slovenia</option>
+<option>Solomon Islands</option><option>Somalia</option><option>South Africa</option><option>South Korea</option>
+<option>Spain</option><option>Sri Lanka</option><option>St Kitts&Nevis</option><option>St. Lucia</option>
+<option>St. Vincent</option><option>St.Pier,Miquel.</option><option>Sudan</option><option>Suriname</option>
+<option>Svalbard</option><option>Swaziland</option><option>Sweden</option><option>Switzerland</option>
+<option>Syria</option><option>Taiwan</option><option>Tajikistan</option><option>Tanzania</option>
+<option>Thailand</option><option>Togo</option><option>Tokelau Islands</option><option>Tonga</option>
+<option>Trinidad,Tobago</option><option>Tunisia</option><option>Turkey</option><option>Turkmenistan</option>
+<option>Turksh Caicosin</option><option>Tuvalu</option><option>Uganda</option><option>Ukraine</option>
+<option>United Kingdom</option><option>Uruguay</option><option>USA</option><option>Utd.Arab Emir.</option>
+<option>Uzbekistan</option><option>Vanuatu</option><option>Vatican City</option><option>Venezuela</option>
+<option>Vietnam</option><option>Wallis,Futuna</option><option>West Sahara</option><option>Yemen</option>
+<option>Zambia</option><option>Zimbabwe</option>
+-->
+<!-- end CASP AMO 10_01_2014 WAS_CR_33 -->
+<!-- end CASP AMO 22_06_2012 WAS_CR_24 -->
+<!-- CASP AMO 10_01_2014 WAS_CR_33 begin -->
+<!--
+</select></td>
+-->
+<!-- end CASP AMO 10_01_2014 WAS_CR_33 -->
+<td align="RIGHT" width="15%">E-Mail Business:</td>
+<td align="LEFT" width="35%"><input name="email_business" size="18" maxlength="50" type="TEXT"></td>
+</tr>
+
+</tbody></table></center>
+
+<center>
+<hr align="CENTER"></center>
+
+<center><table border="0" width="95%">
+<tbody><tr>
+<td class="Head" colspan="7" align="LEFT">Family:</td>
+</tr>
+
+<!-- CASP AMO 22_11_2012 WAS_CR_29 begin -->
+<!-- 
+<tr>
+<td ALIGN=RIGHT WIDTH="16%">Marital Status:</td>
+<td WIDTH="4%">&nbsp;</td>
+<td CLASS="Light" ALIGN=LEFT WIDTH="16%">Married:&nbsp;<input TYPE="RADIO" NAME="marital_status" VALUE="Married" CHECKED></td>
+<td CLASS="Light" ALIGN=LEFT WIDTH="16%">Separated:&nbsp;<input TYPE="RADIO" NAME="marital_status" VALUE="Separated"></td>
+<td CLASS="Light" ALIGN=LEFT WIDTH="16%">Divorced:&nbsp;<input TYPE="RADIO" NAME="marital_status" VALUE="Divorced"></td>
+<td CLASS="Light" ALIGN=LEFT WIDTH="16%">Widow(er):&nbsp;<input TYPE="RADIO" NAME="marital_status" VALUE="Widow(er)"></td>
+<td CLASS="Light" ALIGN=LEFT WIDTH="16%">Single:&nbsp;<input TYPE="RADIO" NAME="marital_status" VALUE="Single"></td>
+</tr>
+-->
+<tr>
+<td align="RIGHT" width="16%">Marital Status:</td>
+<td width="4%">&nbsp;</td>
+<td colspan="5" align="RIGHT" width="16%">
+<table cellpaddin="0" border="0" cellspacing="0" width="100%">
+<tbody><tr>
+<td class="Light" align="LEFT">Married:&nbsp;<input name="marital_status" value="Married" checked="checked" type="RADIO"></td>
+<td class="Light" align="LEFT">Separated:&nbsp;<input name="marital_status" value="Separated" type="RADIO"></td>
+<td class="Light" align="LEFT">Divorced:&nbsp;<input name="marital_status" value="Divorced" type="RADIO"></td>
+<td class="Light" align="LEFT">Widow(er):&nbsp;<input name="marital_status" value="Widow(er)" type="RADIO"></td>
+<td class="Light" align="LEFT">Single:&nbsp;<input name="marital_status" value="Single" type="RADIO"></td>
+<td class="Light" align="LEFT">Registered partner:&nbsp;<input name="marital_status" value="Regpartner" type="RADIO"></td>
+<td class="Light" align="LEFT">Ex-registered partner:&nbsp;<input name="marital_status" value="Exregpart" type="RADIO"></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+<!-- end CASP AMO 22_11_2012 WAS_CR_29 -->
+<tr>
+<td align="RIGHT" width="16%">No. of Children:</td>
+<td width="4%">&nbsp;</td>
+<td align="LEFT" width="16%"><input name="no_children" size="2" maxlength="2" value="0" type="TEXT"></td>
+<td class="Light" colspan="1" align="RIGHT" width="16%">Please give ages</td>
+<td colspan="3" width="16%"><input name="child_ages" size="30" maxlength="30" type="TEXT"></td>
+</tr>
+</tbody></table></center>
+
+<center>
+<hr align="CENTER"></center>
+
+<center><table border="0" width="95%">
+<tbody><tr>
+<td class="Head" colspan="5" align="LEFT">Languages:</td>
+</tr>
+
+<tr>
+<td align="RIGHT">Mother Tongue:</td>
+<td colspan="3" align="LEFT"><input name="mother_tongue" size="18" maxlength="20" type="TEXT"></td>
+</tr>
+
+<tr>
+<td align="RIGHT">&nbsp;</td>
+<td align="RIGHT">Writing
+</td><td align="RIGHT">Reading
+</td><td align="RIGHT">Speaking
+</td></tr>
+
+<tr>
+<td align="RIGHT">French
+</td><td align="RIGHT">
+<select name="fr_wr">
+<option selected="selected"> </option>
+<option>Fluent</option>
+<option>Good</option>
+<option>Fair</option>
+<option>Poor</option>
+</select>
+</td>
+<td align="RIGHT">
+<select name="fr_rd">
+<option selected="selected"> </option>
+<option>Fluent</option>
+<option>Good</option>
+<option>Fair</option>
+<option>Poor</option>
+</select>
+</td>
+<td align="RIGHT">
+<select name="fr_sp">
+<option selected="selected"> </option>
+<option>Fluent</option>
+<option>Good</option>
+<option>Fair</option>
+<option>Poor</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<td align="RIGHT">English
+</td><td align="RIGHT">
+<select name="en_wr">
+<option selected="selected"> </option>
+<option>Fluent</option>
+<option>Good</option>
+<option>Fair</option>
+<option>Poor</option>
+</select>
+</td>
+<td align="RIGHT">
+<select name="en_rd">
+<option selected="selected"> </option>
+<option>Fluent</option>
+<option>Good</option>
+<option>Fair</option>
+<option>Poor</option>
+</select>
+</td>
+<td align="RIGHT">
+<select name="en_sp">
+<option selected="selected"> </option>
+<option>Fluent</option>
+<option>Good</option>
+<option>Fair</option>
+<option>Poor</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<td align="RIGHT">Other Languages
+</td><td colspan="3" align="RIGHT" width="75%">&nbsp;</td>
+</tr>
+
+<tr>
+<td align="RIGHT"><input name="Other_Language_1" size="18" maxlength="20" type="TEXT"></td>
+<td align="RIGHT">
+<select name="l1_wr">
+<option selected="selected"> </option>
+<option>Fluent</option>
+<option>Good</option>
+<option>Fair</option>
+<option>Poor</option>
+</select>
+</td>
+<td align="RIGHT">
+<select name="l1_rd">
+<option selected="selected"> </option>
+<option>Fluent</option>
+<option>Good</option>
+<option>Fair</option>
+<option>Poor</option>
+</select>
+</td>
+<td align="RIGHT">
+<select name="l1_sp">
+<option selected="selected"> </option>
+<option>Fluent</option>
+<option>Good</option>
+<option>Fair</option>
+<option>Poor</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<td align="RIGHT"><input name="Other_Language_2" size="18" maxlength="20" type="TEXT"></td>
+<td align="RIGHT">
+<select name="l2_wr">
+<option selected="selected"> </option>
+<option>Fluent</option>
+<option>Good</option>
+<option>Fair</option>
+<option>Poor</option>
+</select>
+</td>
+<td align="RIGHT">
+<select name="l2_rd">
+<option selected="selected"> </option>
+<option>Fluent</option>
+<option>Good</option>
+<option>Fair</option>
+<option>Poor</option>
+</select>
+</td>
+<td align="RIGHT">
+<select name="l2_sp">
+<option selected="selected"> </option>
+<option>Fluent</option>
+<option>Good</option>
+<option>Fair</option>
+<option>Poor</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<td align="RIGHT"><input name="Other_Language_3" size="18" maxlength="20" type="TEXT"></td>
+<td align="RIGHT">
+<select name="l3_wr">
+<option selected="selected"> </option>
+<option>Fluent</option>
+<option>Good</option>
+<option>Fair</option>
+<option>Poor</option>
+</select>
+</td>
+<td align="RIGHT">
+<select name="l3_rd">
+<option selected="selected"> </option>
+<option>Fluent</option>
+<option>Good</option>
+<option>Fair</option>
+<option>Poor</option>
+</select>
+</td>
+<td align="RIGHT">
+<select name="l3_sp">
+<option selected="selected"> </option>
+<option>Fluent</option>
+<option>Good</option>
+<option>Fair</option>
+<option>Poor</option>
+</select>
+</td>
+</tr>
+
+</tbody></table></center>
+
+
+<hr align="CENTER"></center>
+<center>
+
+<center><table border="0" width="95%">
+<tbody><tr>
+<td class="Head" colspan="4" align="LEFT">Have you Ever Previously Applied For A Post In ESA?</td>
+<td class="Light" align="LEFT">YES&nbsp;<input name="prev_app" value="yes" type="RADIO"></td>
+<td class="Light" align="LEFT">NO&nbsp;<input name="prev_app" value="no" checked="checked" type="RADIO"></td>
+</tr>
+
+<tr>
+<td class="Light" colspan="4" align="LEFT">Were you interviewed?</td>
+<td class="Light" align="LEFT">YES&nbsp;<input name="prev_int" value="yes" type="RADIO"></td>
+<td class="Light" align="LEFT">NO&nbsp;<input name="prev_int" value="no" checked="checked" type="RADIO"></td>
+</tr>
+<tr>
+<td class="Light" colspan="2" align="LEFT">If Yes, please provide details</td>
+<td colspan="4" align="RIGHT" valign="TOP"><textarea name="intv_details" rows="2" cols="50" onkeypress="textAreaMaxLen(this, 120)" onblur="textAreaMaxLen(this, 120)" wrap="hard"></textarea></td>
+</tr>
+
+<tr>
+<td colspan="6" align="LEFT">&nbsp;</td>
+</tr>
+
+<tr>
+<td class="Light" colspan="6" align="LEFT">In which countries are you prepared to work?</td>
+</tr>
+
+<tr>
+<input name="fl_country" value="Dummy" type="HIDDEN">
+<td class="Light" align="CENTER">France:&nbsp;<input name="fl_country" value="Fr" type="CHECKBOX"></td>
+<td class="Light" align="CENTER">The Netherlands:&nbsp;<input name="fl_country" value="Nl" type="CHECKBOX"></td>
+<td class="Light" align="CENTER">Germany:&nbsp;<input name="fl_country" value="De" type="CHECKBOX"></td>
+<td class="Light" align="CENTER">Italy:&nbsp;<input name="fl_country" value="It" type="CHECKBOX"></td>
+<td class="Light" colspan="2" align="LEFT">Other:<input name="Cty_Other" size="18" maxlength="20" type="TEXT"></td>
+</tr>
+
+</tbody></table></center>
+
+<hr align="CENTER"></center>
+
+<center><table border="0" width="95%">
+<tbody><tr>
+<td class="Head" align="LEFT" width="23%">Education:</td>
+<td align="CENTER" width="20%">Name &amp; Location</td>
+<td align="CENTER" width="21%">Title Obtained</td>
+<td align="CENTER" width="24%">Major Subjects<br><font size="-2">(Title of Diploma)</font></td>
+<td align="CENTER" width="12%">Dates<br><font size="-2">From - To</font></td>
+</tr>
+
+<tr>
+<td align="RIGHT" valign="TOP" width="23%">Secondary School</td>
+<td align="CENTER" valign="TOP" width="20%"><textarea name="education_name_0" rows="3" cols="15" onkeypress="textAreaMaxLen(this, 120)" onblur="textAreaMaxLen(this, 120)" wrap="hard"></textarea></td>
+<td align="CENTER" valign="TOP" width="21%"><select name="education_titl_0"><option selected="selected">____________________</option>
+<option>No Education</option><option>Education to O level</option><option>Education to A level</option></select></td>
+<td align="CENTER" valign="TOP" width="20%"><textarea name="education_subj_0" rows="2" cols="15" onkeypress="textAreaMaxLen(this, 60)" onblur="textAreaMaxLen(this, 60)" wrap="hard"></textarea></td>
+<td align="CENTER" valign="TOP" width="12%"><input name="education_date_0" size="14" maxlength="20" type="TEXT"></td>
+</tr>
+
+<tr>
+<td align="RIGHT" valign="TOP" width="23%">College or
+University</td>
+<td align="CENTER" valign="TOP" width="20%"><textarea name="education_name_1" rows="3" cols="15" onkeypress="textAreaMaxLen(this, 120)" onblur="textAreaMaxLen(this, 120)" wrap="hard"></textarea></td>
+<td align="CENTER" valign="TOP" width="21%"><select name="education_titl_1"><option selected="selected">____________________</option><option>First
+Degree (2/3 years)</option><option>Degree</option><option value="Grand Ecole">Grand Ecole/Laurea</option><option>Master</option></select></td>
+<td align="CENTER" valign="TOP" width="20%"><textarea name="education_subj_1" rows="2" cols="15" onkeypress="textAreaMaxLen(this, 60)" onblur="textAreaMaxLen(this, 60)" wrap="hard"></textarea></td>
+<td align="CENTER" valign="TOP" width="12%"><input name="education_date_1" size="14" maxlength="20" type="TEXT"></td>
+</tr>
+
+<tr>
+<td align="RIGHT" valign="TOP" width="23%">Post University Degree</td>
+<td align="CENTER" valign="TOP" width="20%"><textarea name="education_name_2" rows="3" cols="15" onkeypress="textAreaMaxLen(this, 120)" onblur="textAreaMaxLen(this, 120)" wrap="hard"></textarea></td>
+<td align="CENTER" valign="TOP" width="21%"><select name="education_titl_2"><option selected="selected">____________________</option><option>Degree</option>
+<option>Master</option><option>Ph.D</option><option>more than Ph.D</option></select></td>
+<td align="CENTER" valign="TOP" width="20%"><textarea name="education_subj_2" rows="2" cols="15" onkeypress="textAreaMaxLen(this, 60)" onblur="textAreaMaxLen(this, 60)" wrap="hard"></textarea></td>
+<td align="CENTER" valign="TOP" width="12%"><input name="education_date_2" size="14" maxlength="20" type="TEXT"></td>
+</tr>
+
+<tr>
+<td align="RIGHT" width="23%">Fields of Specialisation</td>
+<td colspan="2" align="CENTER"><input name="specialisation_0" size="28" maxlength="40" type="TEXT"></td>
+<td colspan="2" align="LEFT"><input name="specialisation_1" size="28" maxlength="40" type="TEXT"></td>
+</tr>
+<tr>
+<td class="Light" colspan="5" align="LEFT">Please provide a list of theses, patents, publications and other significant work you have done.</td>
+</tr>
+<tr>
+<td colspan="5" align="CENTER"><textarea name="theses" rows="10" cols="75" onkeypress="textAreaMaxLen(this, 2000)" onblur="textAreaMaxLen(this, 2000)" wrap="hard"></textarea></td>
+</tr>
+<!--	CASP_20022009_WAS_CR_9 start	-->
+<tr>
+<td class="Light" colspan="5" align="CENTER">Have you any objection to our making enquiries to verify the authenticity of your diplomas and degrees?</td>
+</tr>
+<tr>
+<td class="Light" colspan="2" align="RIGHT" valign="TOP">YES&nbsp;<input name="auth_cont_0" value="yes" type="RADIO"></td>
+<td class="Light" colspan="3" align="LEFT" valign="TOP">NO&nbsp;<input name="auth_cont_0" value="no" type="RADIO"></td>
+</tr>
+<!--	end CASP_20022009_WAS_CR_9	-->
+</tbody></table></center>
+
+<center>
+<hr align="CENTER"></center>
+
+<center><table border="0" width="95%">
+<tbody><tr>
+<td class="Head" colspan="1" align="LEFT">Computer skills:</td>
+<input name="fl_comp_skill" value="" type="hidden">
+</tr>
+
+<tr>
+<td class="Light" colspan="4" align="LEFT">Please list software packages with which you are familiar. 
+Using the boxes below to define your level of expertise.</td>
+</tr>
+
+<tr>
+<td align="CENTER" width="25%">Excellent:</td>
+<td align="CENTER" width="25%">Good:&nbsp;</td>
+<td align="CENTER" width="25%">Fair:&nbsp;</td>
+<td align="CENTER" width="25%">Poor:&nbsp;</td>
+</tr>
+
+<tr>
+<td align="CENTER" height="100" width="25%"><textarea name="packages_excellent" rows="4" cols="15" onkeypress="textAreaMaxLen(this, 130)" onblur="textAreaMaxLen(this, 130)" wrap="hard"></textarea></td>
+<td align="CENTER" height="100" width="25%"><textarea name="packages_good" rows="4" cols="15" onkeypress="textAreaMaxLen(this, 130)" onblur="textAreaMaxLen(this, 130)" wrap="hard"></textarea></td>
+<td align="CENTER" height="100" width="25%"><textarea name="packages_fair" rows="4" cols="15" onkeypress="textAreaMaxLen(this, 100)" onblur="textAreaMaxLen(this, 100)" wrap="hard"></textarea></td>
+<td align="CENTER" height="100" width="25%"><textarea name="packages_poor" rows="4" cols="15" onkeypress="textAreaMaxLen(this, 100)" onblur="textAreaMaxLen(this, 100)" wrap="hard"></textarea></td>
+</tr>
+</tbody></table></center>
+
+<center>
+<hr align="CENTER"></center>
+
+<center><table border="0" width="95%">
+
+<tbody><tr>
+<td colspan="4"><b><font face="Tahoma"><font colspan="3" size="+0">Present Employer</font></font></b></td>
+</tr>
+
+<tr>
+<td colspan="2" align="CENTER" width="40%">Company
+/Address</td>
+
+<td colspan="2" align="CENTER" width="60%">Present position</td>
+</tr>
+
+<tr>
+<td colspan="2" rowspan="3" align="CENTER" width="40%"><textarea name="company_1" rows="3" cols="30" onkeypress="textAreaMaxLen(this, 120)" onblur="textAreaMaxLen(this, 120)" wrap="hard"></textarea></td>
+
+<td colspan="2" align="CENTER" width="60%"><input name="position_1" size="30" maxlength="30" type="TEXT"></td>
+</tr>
+
+<tr>
+<td align="CENTER">From</td>
+
+<td align="CENTER">To</td>
+</tr>
+
+<tr>
+<td align="CENTER">
+<select name="from_month">
+<option selected="selected" value="01">January </option>
+<option value="02"> February </option>
+<option value="03"> March </option>
+<option value="04"> April </option>
+<option value="05"> May </option>
+<option value="06"> June </option>
+<option value="07"> July </option>
+<option value="08"> August </option>
+<option value="09"> September </option>
+<option value="10"> October </option>
+<option value="11"> November </option>
+<option value="12"> December </option></select>
+<input name="from_year" size="4" maxlength="4" type="TEXT"></td>
+
+<td align="CENTER"><select name="to_month">
+<option selected="selected" value="00">Present </option>
+<option value="01">January </option>
+<option value="02"> February </option>
+<option value="03"> March </option>
+<option value="04"> April </option>
+<option value="05"> May </option>
+<option value="06"> June </option>
+<option value="07"> July </option>
+<option value="08"> August </option>
+<option value="09"> September </option>
+<option value="10"> October </option>
+<option value="11"> November </option>
+<option value="12"> December </option></select>
+<input name="to_year" size="4" maxlength="4" type="TEXT"></td>
+</tr>
+
+<tr>
+<td colspan="2" align="RIGHT">Name and
+position of person to whom you report</td>
+
+<td colspan="2" align="LEFT"><input name="boss" size="30" maxlength="30" type="TEXT"></td>
+</tr>
+
+<tr>
+<td align="RIGHT" valign="TOP" width="22%">Annual
+Salary (gross)<br>(Specify Currency)</td>
+
+<td align="LEFT" valign="TOP" width="18%"><input name="gross" size="15" maxlength="15" type="TEXT"></td>
+
+<td align="RIGHT" valign="TOP" width="38%">Annual
+Salary (net) after tax and social security contributions<br>(Specify Currency)</td>
+
+<td align="LEFT" valign="TOP" width="22%"><input name="net" size="15" maxlength="15" type="TEXT"></td>
+</tr>
+
+<tr>
+<td align="RIGHT">Other benefits in
+kind</td>
+
+<td colspan="3" align="LEFT"><input name="bens" size="30" maxlength="40" type="TEXT"></td>
+</tr>
+
+<tr>
+<td align="RIGHT" valign="TOP">Yearly
+budget responsibility</td>
+
+<td align="LEFT" valign="TOP"><input name="budget" size="20" maxlength="20" type="TEXT"></td>
+
+<td align="RIGHT" valign="TOP">Number
+of people reporting directly to you or for whom you are responsible</td>
+
+<td align="LEFT" valign="TOP"><input name="reporting" size="20" maxlength="20" type="TEXT"></td>
+</tr>
+
+<tr>
+<td align="RIGHT">Describe duties and
+scope of responsibilities.</td>
+
+<td colspan="3" align="LEFT"><textarea name="duties" rows="3" cols="55" onkeypress="textAreaMaxLen(this, 200)" onblur="textAreaMaxLen(this, 200)" wrap="hard"></textarea></td>
+</tr>
+
+<tr>
+<td colspan="1" align="RIGHT">How Much
+notice must you give to leave?</td>
+
+<td colspan="3" align="LEFT"><input name="notice" size="40" maxlength="40" type="TEXT"></td>
+</tr>
+
+<tr>
+<td align="RIGHT">Motivation for changing</td>
+
+<td colspan="3" align="LEFT"><textarea name="motive" rows="2" cols="55" onkeypress="textAreaMaxLen(this, 200)" onblur="textAreaMaxLen(this, 200)" wrap="hard"></textarea></td>
+</tr>
+
+<!--	CASP_20022009_WAS_CR_9 start	-->
+<tr>
+<td class="Light" colspan="4" align="CENTER">In case of recruitment, do you have any objection to our making enquiries of your present employer?</td>
+</tr>
+<tr>
+<td class="Light" colspan="2" align="RIGHT" valign="TOP">YES&nbsp;<input name="pemp_cont_0" value="yes" type="RADIO"></td>
+<td class="Light" colspan="2" align="LEFT" valign="TOP">NO&nbsp;<input name="pemp_cont_0" value="no" type="RADIO"></td>
+</tr>
+<!--	end CASP_20022009_WAS_CR_9	-->
+
+</tbody></table></center>
+
+<!--	CASP_20022009_WAS_CR_9 start	-->
+<!--original version:	<br>&nbsp;-->
+<!--	end CASP_20022009_WAS_CR_9	-->
+
+<center>
+<hr align="CENTER"></center>
+<center><table border="0" width="95%">
+<tbody><tr>
+<td class="Head" colspan="4">Previous Employer</td>
+</tr>
+
+<tr>
+<td colspan="2" align="CENTER" width="40%">Company
+/ Address</td>
+
+<td colspan="2" align="CENTER" width="60%">Position Held</td>
+</tr>
+
+<tr>
+<td colspan="2" rowspan="3" align="CENTER" width="40%"><textarea name="company_2" rows="3" cols="30" onkeypress="textAreaMaxLen(this, 120)" onblur="textAreaMaxLen(this, 120)" wrap="hard"></textarea></td>
+
+<td colspan="2" align="CENTER" width="60%"><input name="position_2" size="30" maxlength="30" type="TEXT"></td>
+</tr>
+
+<tr>
+<td align="CENTER">From</td>
+
+<td align="CENTER">To</td>
+</tr>
+
+<tr>
+<td align="CENTER">
+<select name="from_month_2">
+<option selected="selected" value="01">January </option>
+<option value="02"> February </option>
+<option value="03"> March </option>
+<option value="04"> April </option>
+<option value="05"> May </option>
+<option value="06"> June </option>
+<option value="07"> July </option>
+<option value="08"> August </option>
+<option value="09"> September </option>
+<option value="10"> October </option>
+<option value="11"> November </option>
+<option value="12"> December </option></select>
+<input name="from_year_2" size="4" maxlength="4" type="TEXT"></td>
+
+<td align="CENTER"><select name="to_month_2">
+<option selected="selected" value="01">January </option>
+<option value="02"> February </option>
+<option value="03"> March </option>
+<option value="04"> April </option>
+<option value="05"> May </option>
+<option value="06"> June </option>
+<option value="07"> July </option>
+<option value="08"> August </option>
+<option value="09"> September </option>
+<option value="10"> October </option>
+<option value="11"> November </option>
+<option value="12"> December </option></select>
+<input name="to_year_2" size="4" maxlength="4" type="TEXT"></td>
+</tr>
+<tr>
+<td colspan="2" align="RIGHT">Name and
+position of person to whom you reported</td>
+
+<td colspan="2" align="LEFT"><input name="boss_2" size="30" maxlength="30" type="TEXT"></td>
+</tr>
+
+<tr>
+<td align="RIGHT" valign="TOP" width="22%">Annual
+Salary (gross)<br>(Specify Currency)</td>
+
+<td align="LEFT" valign="TOP" width="18%"><input name="gross_2" size="15" maxlength="15" type="TEXT"></td>
+
+<td align="RIGHT" valign="TOP" width="38%">Annual
+Salary (net) after tax and social security contributions<br>(Specify Currency)</td>
+
+<td align="LEFT" valign="TOP" width="22%"><input name="net_2" size="15" maxlength="15" type="TEXT"></td>
+</tr>
+
+<tr>
+<td align="RIGHT">Other benefits in
+kind</td>
+
+<td colspan="3" align="LEFT"><input name="bens_2" size="30" maxlength="40" type="TEXT"></td>
+</tr>
+
+<tr>
+<td align="RIGHT" valign="TOP">Yearly
+budget responsibility</td>
+
+<td align="LEFT" valign="TOP"><input name="budget_2" size="20" maxlength="20" type="TEXT"></td>
+
+<td align="RIGHT" valign="TOP">Number
+of people reporting directly to you or for whom you are responsible</td>
+
+<td align="LEFT" valign="TOP"><input name="reporting_2" size="20" maxlength="20" type="TEXT"></td>
+</tr>
+
+<tr>
+<td align="RIGHT">Describe duties and
+scope of responsibilities.</td>
+
+<td colspan="3" align="LEFT"><textarea name="duties_2" rows="3" cols="55" onkeypress="textAreaMaxLen(this, 200)" onblur="textAreaMaxLen(this, 200)" wrap="hard"></textarea></td>
+</tr>
+
+<tr>
+<td align="RIGHT">Reasons for leaving</td>
+
+<td colspan="3" align="LEFT"><textarea name="motive_2" rows="2" cols="55" onkeypress="textAreaMaxLen(this, 200)" onblur="textAreaMaxLen(this, 200)" wrap="hard"></textarea></td>
+</tr>
+</tbody></table></center>
+
+<center>
+<hr align="CENTER"></center>
+
+<center><table border="0" width="95%">
+<tbody><tr>
+<td class="Light" colspan="5" align="LEFT">If you have held more than two posts, please give details below.</td>
+</tr>
+<tr>
+<td colspan="6" align="CENTER"><textarea name="prev_posts" rows="10" cols="75" onkeypress="textAreaMaxLen(this, 2000)" onblur="textAreaMaxLen(this, 2000)" wrap="hard"></textarea></td>
+</tr>
+</tbody></table></center>
+
+<center>
+<hr align="CENTER"></center>
+
+<center><table border="0" width="95%">
+<tbody><tr>
+<td class="Light" align="LEFT">Please describe below your experience relevant to the requirements of the post you are applying for.</td>
+</tr>
+<tr>
+<td colspan="5" align="CENTER"><textarea name="app_details" rows="10" cols="75" onkeypress="textAreaMaxLen(this, 2000)" onblur="textAreaMaxLen(this, 2000)" wrap="hard"></textarea></td>
+</tr>
+</tbody></table></center>
+
+<center>
+<hr align="CENTER"></center>
+
+<center><table border="0" width="95%">
+<tbody><tr>
+<td class="Head" colspan="6" align="LEFT">Military Service.</td>
+</tr>
+<tr>
+<td class="Light" align="RIGHT">From:&nbsp;</td>
+<td align="LEFT"><input name="mil_from" size="15" maxlength="15" type="TEXT"></td>
+<td class="Light" align="RIGHT">To:&nbsp;</td>
+<td align="LEFT"><input name="mil_to" size="15" maxlength="15" type="TEXT"></td>
+<td class="Light" align="RIGHT">Duties:&nbsp;</td>
+<td align="LEFT"><input name="mil_duty" size="30" maxlength="50" type="TEXT"></td>
+</tr>
+</tbody></table></center>
+
+<center>
+<hr align="CENTER"></center>
+
+<center><table border="0" width="95%">
+<tbody><tr>
+<!--	CASP_07072010_WAS_CR_14 start	-->
+<!--	CASP_20022009_WAS_CR_9 start	-->
+<!--Original version: <td CLASS="Head" ALIGN=LEFT COLSPAN="5">References<font size=-1> Persons (not relatives) who may be contacted to provide references.</font></td>-->
+<!--<td CLASS="Light" ALIGN=LEFT COLSPAN="5">Referees <font size=-1>(not relatives): </font>note that referees may be contacted without candidates being informed beforehand.</font></td>i-->
+<td class="Head" colspan="5" align="LEFT"><table><tbody><tr><td class="Head">Referees <font style="font-weight:normal;" size="-1">(not relatives):</font></td><td class="Light" style="vertical-align:bottom;">note that referees may be contacted without candidates being informed beforehand.</td></tr></tbody></table></td>
+<!--	end CASP_20022009_WAS_CR_9	-->
+<!--	end CASP_07072010_WAS_CR_14	-->
+</tr>
+
+<tr>
+<td class="Light" align="CENTER" valign="BOTTOM">Name</td>
+<td class="Light" align="CENTER" valign="BOTTOM">Position</td>
+<!-- CASP_25102011_WAS_CR_20_AMO start -->
+<!-- <td CLASS="Light" VALIGN=BOTTOM ALIGN=CENTER>Address and <br>Telephone Number</td> -->
+<td class="Light" align="CENTER" valign="BOTTOM">Address, <br>Telephone Number and <br>Email Address</td>
+<!-- end CASP_25102011_WAS_CR_20_AMO -->
+<!-- CASP_23032009_WAS_CR_11 start -->
+<!--td CLASS="Light" VALIGN=BOTTOM ALIGN=CENTER COLSPAN="2">May be contacted?</td-->
+<!-- end CASP_23032009_WAS_CR_11	-->
+</tr>
+
+<tr>
+<td align="CENTER" valign="TOP"><input name="ref_name_1" size="20" maxlength="40" type="TEXT"></td>
+<td align="CENTER" valign="TOP"><input name="ref_pos_1" size="20" maxlength="40" type="TEXT"></td>
+<td align="CENTER" valign="TOP"><textarea name="ref_addr_1" rows="3" cols="15" onkeypress="textAreaMaxLen(this, 150)" onblur="textAreaMaxLen(this, 150)" wrap="hard"></textarea></td>
+<!-- CASP_23032009_WAS_CR_11 start -->
+<!--original version: td CLASS="Light" VALIGN=TOP ALIGN=LEFT>YES&nbsp;<input TYPE="RADIO" NAME="ref_cont_1" VALUE="yes"></td>
+<td CLASS="Light" VALIGN=TOP ALIGN=LEFT>NO&nbsp;<input TYPE="RADIO" NAME="ref_cont_1" VALUE="no" CHECKED></td-->
+<input name="ref_cont_1" value="yes" type="hidden">
+<!-- end CASP_23032009_WAS_CR_11	-->
+</tr>
+
+<tr>
+<td align="CENTER" valign="TOP"><input name="ref_name_2" size="20" maxlength="40" type="TEXT"></td>
+<td align="CENTER" valign="TOP"><input name="ref_pos_2" size="20" maxlength="40" type="TEXT"></td>
+<td align="CENTER" valign="TOP"><textarea name="ref_addr_2" rows="3" cols="15" onkeypress="textAreaMaxLen(this, 150)" onblur="textAreaMaxLen(this, 150)" wrap="hard"></textarea></td>
+<!-- CASP_23032009_WAS_CR_11 start -->
+<!--original version: td CLASS="Light" VALIGN=TOP ALIGN=LEFT>YES&nbsp;<input TYPE="RADIO" NAME="ref_cont_2" VALUE="yes"></td>
+<td CLASS="Light" VALIGN=TOP ALIGN=LEFT>NO&nbsp;<input TYPE="RADIO" NAME="ref_cont_2" VALUE="no" CHECKED></td-->
+<input name="ref_cont_2" value="yes" type="hidden">
+<!-- end CASP_23032009_WAS_CR_11	-->
+</tr>
+
+<tr>
+<td align="CENTER" valign="TOP"><input name="ref_name_3" size="20" maxlength="40" type="TEXT"></td>
+<td align="CENTER" valign="TOP"><input name="ref_pos_3" size="20" maxlength="40" type="TEXT"></td>
+<td align="CENTER" valign="TOP"><textarea name="ref_addr_3" rows="3" cols="15" onkeypress="textAreaMaxLen(this, 150)" onblur="textAreaMaxLen(this, 150)" wrap="hard"></textarea></td>
+<!-- CASP_23032009_WAS_CR_11 start -->
+<!--original version: td CLASS="Light" VALIGN=TOP ALIGN=LEFT>YES&nbsp;<input TYPE="RADIO" NAME="ref_cont_3" VALUE="yes"></td>
+<td CLASS="Light" VALIGN=TOP ALIGN=LEFT>NO&nbsp;<input TYPE="RADIO" NAME="ref_cont_3" VALUE="no" CHECKED></td-->
+<input name="ref_cont_3" value="yes" type="hidden">
+<!-- end CASP_23032009_WAS_CR_11	-->
+</tr>
+
+</tbody></table></center>
+
+<center>
+<hr align="CENTER"></center>
+
+<center>
+<table border="0" width="95%">
+<tbody><tr>
+<td class="Head" colspan="4" align="LEFT">Relatives or Acquaintances</td>
+</tr>
+<tr>
+<!-- CASP AMO 22_11_2012 WAS_CR_29 begin -->
+<!--<td CLASS="Light" colspan="2" width="50%">Do you have a spouse, child, parent, brother or sister working at ESA? </td>-->
+<td class="Light" colspan="2" width="50%">Do you have a spouse, registered partner, child, parent, brother or sister working at ESA? </td>
+<!-- end CASP AMO 22_11_2012 WAS_CR_29 -->
+<td class="Light" colspan="2" width="50%">Have you any acquaintances working at ESA?</td>
+</tr>
+
+<tr>
+<td class="Light" align="RIGHT">NO&nbsp;</td>
+<td><input name="rel_flag" value="no" checked="checked" type="RADIO"></td>
+<td class="Light" align="RIGHT">NO&nbsp;</td>
+<td><input name="acq_flag" value="no" checked="checked" type="RADIO"></td>
+</tr>
+<tr>
+<td class="Light" align="RIGHT">YES&nbsp;</td>
+<td class="Light"><input name="rel_flag" value="yes" type="RADIO">&nbsp;Please specify name and relationship</td>
+<td class="Light" align="RIGHT">YES&nbsp;</td>
+<td class="Light"><input name="acq_flag" value="yes" type="RADIO">&nbsp;Please specify name</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td align="LEFT"><textarea name="rel_name" rows="3" cols="30" onkeypress="textAreaMaxLen(this, 150)" onblur="textAreaMaxLen(this, 150)" wrap="hard"></textarea></td>
+<td>&nbsp;</td>
+<td align="LEFT"><textarea name="acq_name" rows="3" cols="30" onkeypress="textAreaMaxLen(this, 150)" onblur="textAreaMaxLen(this, 150)" wrap="hard"></textarea></td>
+</tr>
+</tbody></table>
+</center>
+
+<center>
+<hr align="CENTER"></center>
+
+<center><table border="0" width="95%">
+<tbody><tr>
+<td class="Head" align="LEFT">Curriculum Vitae:</td>
+</tr>
+<!--<tr><td>&nbsp;</td></tr>-->
+<tr>
+<td class="Light" align="CENTER">Please attach your
+CV and a cover letter - PDF or Microsoft Word format - in a single electronic file (Mandatory).<br>
+<input name="FILE" type="FILE"></td>
+</tr>
+</tbody></table>
+</center>
+
+<center>
+<hr align="CENTER"></center>
+<center><table border="0" width="95%">
+<tbody><tr><td class="Light" width="50%">How did you learn about this job opportunity (ESA Web site, Newspaper, Word of mouth, Other).</td>
+<td align="LEFT" valign="TOP"><input name="how_learn" size="40" maxlength="40" type="TEXT"></td>
+</tr>
+<tr>
+<td width="50%">&nbsp;</td>
+<td align="RIGHT" width="50%"><script language="JavaScript">
+					<!-- Begin
+					var months=new Array(13);
+					months[1]="January";
+					months[2]="February";
+					months[3]="March";
+					months[4]="April";
+					months[5]="May";
+					months[6]="June";
+					months[7]="July";
+					months[8]="August";
+					months[9]="September";
+					months[10]="October";
+					months[11]="November";
+					months[12]="December";
+					var time=new Date();
+					var lmonth=months[time.getMonth() + 1];
+					var date=time.getDate();
+					var year=time.getYear();
+					if (year < 2000)    // Y2K Fix
+						year = year + 1900;
+					document.write('<font size = "4" face="Tahoma">'+ lmonth + " ");
+					document.write(date + ", " + year+'</font>');
+					// End -->
+				</script><font face="Tahoma" size="4">April 2, 2015</font>
+</td>
+</tr>
+</tbody></table>
+</center>
+
+<br>&nbsp;
+
+<!--	CASP_20022009_WAS_CR_9 start	-->
+<center>
+<table border="0" width="95%">
+<tbody><tr>
+<td colspan="5" align="LEFT">
+<!-- old version:
+By submitting this form, I certify that the statements made in answer to the questions are
+true, complete and correct to the best of my knowledge. I undertake to produce on request 
+certified copies of supporting documents such as payslips, birth certificate / passport 
+or any other identity documents, certified copies of diploma(s) and/or certificates.</td>
+-->
+<!-- CASP_23032009_WAS_CR_8 start -->
+In submitting this application, I certify that the statements made are true, complete and correct to the best of my knowledge. 
+I am aware that I will be requested to supply supporting documents such as payslips, birth certificate,
+passport or any other identity documents and certified copies of diplomas and certificates, in support of the statements 
+I made for this application.</td>
+<!-- end CASP_23032009_WAS_CR_8 -->
+</tr>
+</tbody></table></center>
+<!--	end CASP_20022009_WAS_CR_9	-->
+
+<center>
+<p><input value="Submit to ESA" type="SUBMIT"></p></center>
+</form>
+
+
+</body></html>
